@@ -1,0 +1,9 @@
+#Mac Configuration Files
+.DS_Store
+Desktop.ini
+#Compiled python
+*.pyc
+#Compiled java
+*.class
+#Vim files in progress
+*.swp

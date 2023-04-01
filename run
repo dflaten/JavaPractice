@@ -1,0 +1,5 @@
+javac "$1.java"
+if [ $? -eq 0 ]; then
+  echo "--------Run output-------"
+  java "$1"
+fi
