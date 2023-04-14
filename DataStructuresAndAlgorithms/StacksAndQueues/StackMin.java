@@ -108,6 +108,7 @@ class UpgradedStack {
         if (top.data == min) {
             minStack.pop();
             if (minStack.isEmpty()) {
+            System.out.println("Stack Empty, would normally throw exception.");
                 min = Integer.MAX_VALUE;
             } else {
                 min = minStack.peak();
@@ -133,7 +134,7 @@ class UpgradedStack {
     }
 
     public int min() {
-        return min;
+        return minStack.peak();
     }
 }
 
@@ -150,7 +151,10 @@ public class StackMin {
     //           statement. causing the if block to execute and then the
     //           others creating an infinite loop.
     //
-    // Big O: 
+    //           Didn't actually need a min number to track here I could have
+    //           used the Stack and just peaked at the top number at any time.
+    //
+    // Big O: O(1) for all operations, O(2n) for space due to min stack 
 
 
     public static UpgradedStack createUpgradedStack() {
@@ -158,6 +162,7 @@ public class StackMin {
         myStack.push(8);
         myStack.push(3);
         myStack.push(1);
+        myStack.push(3);
         myStack.push(8);
         return myStack;
     }
@@ -184,8 +189,8 @@ public class StackMin {
     public static void printUpgradedStack(UpgradedStack stack) {
         int itemNumber = 0;
         while(!stack.isEmpty()) {
-            System.out.println("Stack: " + itemNumber + 
-                    " Value: " + stack.pop());
+            System.out.println("Item: " + itemNumber + " " + 
+                "Current Min: "+ stack.min()  +" Value popped: " + stack.pop());
             itemNumber++;
         }
     }
