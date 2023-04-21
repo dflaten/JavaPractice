@@ -23,7 +23,7 @@ class Node {
 
     @Override
     public String toString(){
-        return String.valueOf(data);
+        return "|Value: " + String.valueOf(data) + " Right: " + String.valueOf(this.right.data) + " |";
     }
 
     @Override
@@ -44,16 +44,33 @@ class Node {
 
 public class MinimalTree {
     public static int [] createSortedArray() {
-        int [] array = new int[9];
+        int [] array = new int[20];
         array[0] = 0;
         array[1] = 1;
         array[2] = 4;
         array[3] = 7;
+
         array[4] = 9;
+
         array[5] = 10;
         array[6] = 32;
-        array[7] = 37;
-        array[8] = 45;
+        array[7] = 35;
+        array[8] = 39;
+
+        array[9] = 42;
+
+        array[10] = 46;
+        array[11] = 47;
+        array[12] = 48;
+        array[13] = 58;
+
+        array[14] = 59;
+
+        array[15] = 64;
+        array[16] = 76;
+        array[17] = 99;
+        array[18] = 113;
+        array[19] = 119;
         return array;
     }
 
@@ -75,7 +92,7 @@ public class MinimalTree {
      *                       Array. Done!
      *                       
      * 
-     * Assumptions: 
+     * Assumptions: There will be at least one item in the list. 
      * 
      * Mistakes: At first I started by finding the midpoint and iterrating
      *          through the array putting the lowest highest as children on 
@@ -86,43 +103,57 @@ public class MinimalTree {
      *          In the future I need to create a picture of my end state and 
      *          work through my algorithm there before starting on
      *          implementation.
+     *
+     *          The second attempt I tried to build the array by thinking of
+     *          the values from the middle, starting from the left and then
+     *          building the left side first then building the right. However
+     *          that naturally got me a try that was weighed heavily to the
+     *          left on the left and heavily to the right on the right. 
      *           
      *           
-     * Big O: 
+     * Big O: Log(n) operation 
      *         
      */
-    static Node buildShortestBinaryTree(int [] arrayOfIntegers) {
-        int middle = arrayOfIntegers.length / 2;
-        Node root = new Node(middle);
-        Node current = root;
-        // Offset needed because event numbers will have one less node 
-        // on the right than the left. 
-        boolean evenArrayLength = false; 
-        if (arrayOfintegers.length % 2 == 0 ) {
-            evenArrayLength = true;
-        } else {
-            evenArrayLength = false;
-        }
-        // Iterate through the array starting in the middle
-        // How do I make sure I get all of the things in the array without
-        // trying to get something that is not in the size of the array? 
-        boolean isLeft = true;
-        for (int i = 1; i <= middle; i++) {
-               current.left = new Node(arrayOfIntegers[middle - i]); 
-               current.right = new Node([middle + i]); 
+    static Node buildShortestBinaryTree(int[] arrayOfIntegers) {
+        return createShortestBinaryTree(arrayOfIntegers, 0, 
+                arrayOfIntegers.length - 1);
+    }
 
-               current = current.left;
+    static Node createShortestBinaryTree(int arrayOfIntegers[] , int start, 
+            int end) {
+        // Final Case
+        if (end < start) {
+            return null;
         }
-
-        return new Node(0);
+        //create ShortestBinaryTree for each side
+        //Create Node for the middle of the tree (or sub tree passed in)
+        int mid = (start + end) / 2;
+        Node middle = new Node(arrayOfIntegers[mid]);
+        //Use the left half of the array to create the left tree
+        middle.left = createShortestBinaryTree(arrayOfIntegers, start, mid - 1);
+        //Use the right half of the array to create the right tree
+        middle.right = createShortestBinaryTree(arrayOfIntegers, mid + 1, end);
+        return middle;
     }
 
 
     public static void main(String args[]) {
         System.out.println("Starting Program!");
         System.out.println("--------");
-        System.out.println("The shortest Binary Tree is: ");
-        buildShortestBinaryTree(createSortedArray());
+        System.out.println("The Root node for the Binary Tree is: ");
+        Node root = buildShortestBinaryTree(createSortedArray());
+        Node left = root.left; 
+        Node leftleft = root.left.left; 
+        Node leftright = root.left.right; 
+        Node print = root.left.left.right;
+        System.out.println(root);
         System.out.println("--------");
+        System.out.println("Left: ");
+        System.out.println(left);
+        System.out.println("Left, left: ");
+        System.out.println(leftleft);
+        System.out.println("Left, right: ");
+        System.out.println(leftright);
+        System.out.println(print);
     }
 }
