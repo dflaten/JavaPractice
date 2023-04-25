@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Collections;
+import java.lang.Math;
 
 /*
  * Problem: Given a Binary Tree, design an algorithim which determines if the
@@ -68,6 +69,10 @@ public class CheckBalanced {
 
         array[15] = 64;
         array[16] = 76;
+        array[16] = 77;
+        array[16] = 78;
+        array[16] = 79;
+        array[16] = 80;
         array[17] = 99;
         array[18] = 113;
         array[19] = 119;
@@ -77,55 +82,6 @@ public class CheckBalanced {
     public static void printBinaryTree(Node node) {
         System.out.println("TO BE IMPLEMENTED");
     }
-
-    /* My Implementation: 1) Search of the Tree, accessing
-     *                       each element and adding each to a LinkedList, one 
-     *                       for each layer. (How do you know if you are at a
-     *                       new layer?) A: you keep track and pass it in.
-     *                    2) 
-     *                       
-     *                    3) 
-     *                       
-     * 
-     * Assumptions: 
-     * 
-     * Mistakes:        * 
-     *
-     * Big O: 
-     *         
-     */
-    static ArrayList<LinkedList<Node>> createLinkedListOfEachDepth(Node root) {
-        // Go deep into a tree creating a new linked list for every new layer
-        // adding it to the arrayList (layer 1 goes in arr[0], layer 2 in
-        // arr[1]...
-        ArrayList<LinkedList<Node>> listOfLinkedLists = new ArrayList();
-
-        depthFirstSearch(root, 0, listOfLinkedLists);
-        
-        return listOfLinkedLists;
-
-
-    }
-
-    static void depthFirstSearch(Node node, int layer, ArrayList<LinkedList<Node>> listOfLinkedLists) {
-        if (node == null) {
-            return;
-        }
-
-        if (listOfLinkedLists.size() ==  layer) {
-            
-            LinkedList<Node> newLinkedList = new LinkedList<>();
-            newLinkedList.add(node);
-            listOfLinkedLists.add(newLinkedList);
-        } else {
-            listOfLinkedLists.get(layer).add(node);
-        }
-
-        depthFirstSearch(node.left, layer + 1, listOfLinkedLists);
-        depthFirstSearch(node.right, layer + 1, listOfLinkedLists);
-    }
-
-
 
     static Node buildShortestBinaryTree(int[] arrayOfIntegers) {
         return createShortestBinaryTree(arrayOfIntegers, 0, 
@@ -148,17 +104,68 @@ public class CheckBalanced {
         middle.right = createShortestBinaryTree(arrayOfIntegers, mid + 1, end);
         return middle;
     }
+    // The Height of any Subtree in the binary tree never differ by more than
+    // one.
+    //
+    /* My Implementation: 1) Start at root, look at paths from left and right
+     *                       and Find the longest path from each. If they
+     *                       differ by more than one return false. If they do
+     *                       not look at the sub trees for each of their
+     *                       children, find the longest path from each and if
+     *                       they differ by more than one return false. 
+     *
+     *                    2) Continue until you run out of nodes.
+     *                       
+     * 
+     * Assumptions: Always a tree of at least height 2 passed into method.
+     * 
+     * Mistakes:        * 
+     *
+     * Big O: 
+     *         
+     */
+    static boolean checkIfTreeBalanced(Node root) {
+        return checkIfChildrenBalanced(root);
+    }
+    
+
+    static boolean checkIfChildrenBalanced(Node root) {
+        //Base Case
+        if (root == null) {
+            return true;
+        }
+        
+        int heightDiff = determineHeight(root.left) - 
+            determineHeight(root.right);
+        if (Math.abs(heightDiff) > 1) {
+            return false;
+        } else {
+            return checkIfChildrenBalanced(root.left) && checkIfChildrenBalanced(root.right);
+        }
+    }
+
+
+    // This works because every time you are making a recursive call you are 
+    // adding one to the result. You are also making sure you get the max
+    // number from each side to get the actual largest height.
+    static int determineHeight(Node node) {
+       if (node == null) {
+           return -1;
+       }
+       return Math.max(determineHeight(node.left), 
+               determineHeight(node.right)) + 1;
+    }
+
 
 
     public static void main(String args[]) {
         System.out.println("Starting Program!");
         System.out.println("--------");
         Node root = buildShortestBinaryTree(createSortedArray());
-        ArrayList<LinkedList<Node>> result = createLinkedListOfEachDepth(root);
         System.out.println("The Root node for the Binary Tree is: ");
         System.out.println(root);
         System.out.println("--------");
-        System.out.println("The Number of linked lists is: ");
-        System.out.println(result.size());
+        System.out.println("The tree is balanced: ");
+        System.out.println(checkIfTreeBalanced(root));
     }
 }
