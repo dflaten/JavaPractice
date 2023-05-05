@@ -30,3 +30,50 @@ Next:
 
 We continue that sliding of the window, saving the highest sum. 
 
+## Example: Longest Substring with at Most Two Distinct Chars
+
+```java
+class Solution {
+    /* Potential Solutions
+    * 1) Sliding Window: Use a left and right pointer to make a window and a 
+    *    Hashset to keep track of the characters you've seen before.
+    */
+    public int lengthOfLongestSubstring(String s) {
+        Set<Character> set = new HashSet<>();
+
+        int left = 0;
+        int maxLength = 0;
+
+        for(int right = 0; right < s.length(); right++) {
+            // If the char isn't in the set add it and recalculate MaxLength
+            if (!set.contains(s.charAt(right))) {
+                set.add(s.charAt(right));
+                maxLength = Math.max(maxLength, right - left + 1);
+            // If the char is in the set.
+            } else {
+                /* First move the left pointer to where the right pointer
+                *  is pointing at the same char. Removing chars from the set
+                *  as you go to keep it up to date.
+                */ 
+                while(s.charAt(left) != s.charAt(right)) {
+                    set.remove(s.charAt(left));
+                    left++;
+                }
+                /* Finally move the left pointer forward one more so that the 
+                *  same char is not counted twice. 
+                *
+                *  Little Example: `a b c d e a b c`
+                *                   ^         ^
+                *                  left      right
+                * Here you would move the pointer from 0 to 1 in the String.
+                */  
+                left++;
+            }
+
+        }
+
+        return maxLength;
+    }
+
+}
+```
