@@ -153,3 +153,46 @@ public static String reverseWords(String sentence) {
     return reversedWordString.toString();
 }
 ```
+
+## Another Example: Palindrome II
+
+Given a String can you determine if it is a Palindrome or can be turned into a
+Palindrome by removing one character from it? 
+
+Implementation: At first I attempted to just move through the Strings with two
+pointers but that produced inconsistent results because essentially you need to
+just *remove* a character from the string and check to see if it is a
+Palindrome. You can also solve this problem with recursion.
+
+```java
+public static boolean isPalindrome(String s) {
+    int left = 0;
+    int right = s.length() - 1;
+
+    while(left < right) {
+        if (s.charAt(left) != s.charAt(right)) {
+            if (isPalindrome(s, left+1, right)) {
+                return true;
+            } else if (isPalindrome(s, left, right-1)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
+
+static public boolean isPalindrome(String s, int left, int right) {
+    while (left < right) {
+        if (s.charAt(left) != s.charAt(right)) {
+                return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
+```
