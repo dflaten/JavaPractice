@@ -78,3 +78,78 @@ public boolean findSumOfThree(int [nums], int target) {
     }
 }
 ```
+
+## Another Example: Reverse the Words in a Sentence
+Given a String which is a series of words and spaces. Reverse the words in the
+String and remove any extra spaces so there is exactly one space between each
+word. 
+
+Example: Given: "A water bottle" Result: "bottle water a"
+Example: Given: "today   is a sunny day" Resuls: "day sunny a is today"
+
+Solution: Iterate through the String starting at the back of the string
+checking for a character that is not " " with pointer 'a'. As soon as you find 
+a character that is not " ". Set your 2nd pointer, 'b' at that character and 
+keep iterating until you get to another " ". When you get to another space or
+the end of the String then transfer your "word" which is now `a` to `b` to 
+your new String. Adding  `a` instead of `a-1` makes sure we get the space at 
+the end.
+
+My First attempt:
+```java
+public static String reverseWords(String sentence) {
+    StringBuilder reversedString = new StringBuilder();
+    int b = sentence.length() - 1;
+    boolean wordInProgress = false;
+    for(int a = sentence.length() - 1; a >= 0; a--) {
+        if (sentence.charAt(a) == ' ') {
+            if (b < a) {
+                //Create new word with space at the end
+                reversedString.append(sentence.substring(a, b));
+                reversedString.append(' ');
+                b = a;
+                wordInProgress = false;
+            }
+        } else {
+            if (!wordInProgress) {
+                 b = a;
+                 wordInProgress = true;
+            }
+        }
+    }
+    //Remove extra space added by latst word.
+    reversedString.deleteCharAt(reversedString.length()-1);
+    return reversedString.toString();
+}
+```
+
+Final Code: 
+```java
+public static String reverseWords(String sentence) {
+    StringBuilder reversedWordString = new StringBuilder();
+    int b = sentence.length() - 1;
+    boolean wordInProgress = false;
+    //Iterate through the string starting at the back.
+    for (int a = sentence.length() - 1; a >= 0; a--) {
+        //If we get to the end of a word or the String
+        if (sentence.charAt(a) == ' ' || a == 0) {
+            //And the word is in progress
+            if (wordInProgress) {
+                //Add the word, the final word is an edge case
+                if (a == 0) {
+                    reversedWordString.append(sentence.substring(a, b+1));
+                } else {
+                    reversedWordString.append(sentence.substring(a+1, b+1));
+                    reversedWordString.append(' ');
+                    b = a;
+                    wordInProgress = false;
+                }
+            }
+        } else if (!wordInProgress) {
+            b = a;
+            wordInProgress = true;
+        }
+    }
+    return reversedWordString.toString();
+}
+```
