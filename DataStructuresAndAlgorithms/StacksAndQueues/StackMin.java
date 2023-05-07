@@ -5,7 +5,7 @@
  *                     returns the minimum element. 
  *
  * Assumptions: If the value being entered is equal to the minimum value in the
- *              list the min() function will return the late 
+ *              list the min() function will return the later
  *
  * Implementation: 
  *
