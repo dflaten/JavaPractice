@@ -117,3 +117,41 @@ return fast == 1;
 This solution is `O(log n)` because we are calculating the sum of sqaures,
 technically this is `O(log n)` + `O(log n)`  since we are doing it twice but it
 ultimately breaks down to `O(log n)`.
+
+### Linked List Cycle
+Write a program that when provided the head of a LinkedList returns true if
+there is a cycle in the list or false if it does not. 
+
+#### Approach Logic
+I will use a fast/slow pointer in this solution. The fast pointer will move at
+2X speed and the slow at 1X Speed iterating through the list. If the fast
+pointer or the fast.next pointer is ever null we know there is no cycle. If the
+fast and slow pointer ever end up on the same node we know there is a cycle. 
+
+My Solution: `O(n)` for time, `O(1)` for space
+```java
+public static boolean detectCycle(LinkedListNode head) {
+LinkedListNode slow = head;
+LinkedListNode fast = head;
+
+//Don't need this if we check for fast.next being null in the while loop
+if (head == null || head.next == null) {
+  return false;
+}
+
+while(fast != null) {
+//Also don't need this if we check for fast.next being null in the while loop
+  if (fast.next == null) {
+    return false;
+  }
+  slow = slow.next;
+  fast = fast.next.next;
+  if (slow == fast) {
+    return true;
+  }
+
+}
+return false;
+}
+```
+
