@@ -155,3 +155,53 @@ return false;
 }
 ```
 
+### Middle of the Linked List
+Write a program that when provided a Linked List will return the middle node of
+the Linked List. If the number of nodes are even return the 2nd middle node. 
+
+**Example**
+Given: 1 -> 2 -> 3 -> 4 -> 5 -> null
+Return: 3
+
+#### Approach Logic
+Use a fast and slow pointer. Set both pointers to the head. Move the slow
+forward by one and the fast forward by two. When the fast pointer is null or
+fast.next equals null then return the slow pointer because we will be pointing
+at the middle of the list. 
+
+#### Time/Space Complexity
+Time - `O(n)` where n is the number of nodes in the list. 
+Space - `O(1)`
+
+```java
+public static LinkedListNode(LinkedListNode head) {
+    LinkedListNode slow = head;
+    LinkedListNode fast = head;
+
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+
+    return slow;
+}
+```
+
+### Circular Array Loop
+An array is given that has non zero integers stored in it where the value
+represents the number of places to skip forward (positive) or backward
+(negative). When skipping forward or backward, wrap arround if you reach either
+end of the array. If you do so you have a circular array. 
+
+* The same set of indices must be repeated when the sequence is traversed
+  according to the rules above. 
+* The length of the sequence is >= 2. 
+* The loop must be in a single direction forward or backward. 
+
+**Example**
+Input: `1, 3, -2, -4, 1`
+Output: `true`
+
+You move 1 forward, then three forward, then 1 forward back to the start where
+the sequence continues. 
+
