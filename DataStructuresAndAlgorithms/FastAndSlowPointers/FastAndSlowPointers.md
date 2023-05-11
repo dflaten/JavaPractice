@@ -205,3 +205,68 @@ Output: `true`
 You move 1 forward, then three forward, then 1 forward back to the start where
 the sequence continues. 
 
+```java
+
+  public static boolean circularArrayLoop(int[] nums) {
+  int size = nums.length;
+  for (int i = 0; i < size; i++) {
+    // Set slow and fast pointer at current index value.
+    int slow = i, 
+    int fast = i;
+    boolean forward = nums[i] > 0;
+
+    while (true) {
+      slow = nextStep(slow, nums[slow], size);
+
+      if (isNotCycle(nums, forward, slow))
+        break;
+
+      fast = nextStep(fast, nums[fast], size);
+      if (isNotCycle(nums, forward, fast))
+        break;
+
+      fast = nextStep(fast, nums[fast], size);
+      if (isNotCycle(nums, forward, fast))
+        break;
+      
+      // Loop has been found
+      if (slow == fast)
+        return true;
+    }
+  }
+
+  return false;
+}
+
+public static int nextStep(int arrayIndex, int steps, int size) {
+  // To get how many steps we should move take the provided position, add the 
+  // steps provided and then take the modulus of that sum against the size.
+  // We take the modulus because we don't actually need to move through the
+  // array if the size is super large, we just need to know where we will end 
+  // up.
+  int result = (arrayIndex + steps) % size;
+  // If the result is negative we should add the size so that we can just add
+  // the number to the current value to move the pointer forward correctly. (We
+  // can do this because we used modulus in the previous line. 
+  if (result < 0) {
+      result = result + size;
+  }
+  return result;
+}
+
+// A function to detect a cycle doesn't exist
+public static boolean isNotCycle(int[] nums, boolean prevDirection, int pointer) {
+  // Set current direction to true if current element is positive, 
+  // set false otherwise.
+  boolean currDirection = nums[pointer] >= 0;
+  
+  // If current direction and previous direction are different or moving a 
+  // pointer takes back to the same value, then the cycle is not possible, 
+  // we return true, otherwise return false.
+  if (prevDirection != currDirection || Math.abs(nums[pointer] % nums.length) == 0) {
+    return true;
+  }
+  return false;
+}
+
+```
