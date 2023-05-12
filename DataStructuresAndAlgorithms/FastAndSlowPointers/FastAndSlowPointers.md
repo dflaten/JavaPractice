@@ -270,3 +270,55 @@ public static boolean isNotCycle(int[] nums, boolean prevDirection, int pointer)
 }
 
 ```
+
+
+### Find The Duplicate Number
+Given an array of integers, find a duplicate number such that the array
+contains n + 1 elements and each inter is in the rage [1, n] inclusive. 
+
+There is only one repeated number in nums. Find and return that number. 
+
+Constraints:
+* You must use constant space
+* 1 <= n <= 10^5
+* `nums.length` = n + 1
+* 1 <= n[i] <= n + 1
+* All integers in the array are unique except for one integer that will appear
+  more than once. 
+
+#### Approach Logic
+Use a fast and slow pointer. Both points move using the values in the array.
+Due to the constrains this is possible. You first find the intersection point
+which is where fast and slow point. The intersection point in general is not
+equal to the cycle entrance. Then you do another loop to find the entrance.
+Start the slow pointer at the start of the sequence and leave the fast pointer
+on the intersection point.
+
+#### Solution
+```java
+   public static int findDuplicate(int[] nums) {
+      int slow = nums[0];
+      int fast = nums[0];
+      // Find the Intersection Point
+      while(true) {
+         slow = nums[slow];
+         fast = nums[nums[fast]];
+
+         if (slow == fast) {
+            break;
+         }
+      }
+
+     // Find the Cycle entrance. We start slow at the beggning of the array and
+     // the fast pointer at the intersection point. (Left it there from the
+     // previous loop.)
+
+      slow = nums[0];
+      while (slow != fast) {
+         slow = nums[slow];
+         fast = nums[fast];
+      }
+
+      return fast;
+   }
+```
