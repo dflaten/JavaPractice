@@ -29,14 +29,14 @@ can be deleted.
 
 ## How to Know when you can use this method to solve a problem
 1. The problem requires identifying the first x% of the elements in a linked
-   list.
+list.
 1. The element at the k-way point in a linked list (the middle, kth last
-   element in a linked list). 
+        element in a linked list). 
 1. The problem requires identifying a cycle in a linked list or sequence of
-   symbols. 
+symbols. 
 1. Do not use if the input data can't be traversed in a linear fashion. 
 1. Use the two pointer approach if you can solve the problem by the pointers
-   going at the same pace. 
+going at the same pace. 
 
 ## Real World Uses
 
@@ -57,9 +57,9 @@ Write a program that determines if a number, n is happy.
 
 A happy number is: 
 * Starting with any positive integer, replace the number by the sum of the
-  squares of its digits. 
+squares of its digits. 
 * Repeat the process until the number equals 1 (where it will stay), or it
-  loops endlessly in a cycle which does not include 1. 
+loops endlessly in a cycle which does not include 1. 
 * If there is a cycle it is not happy, if it ends in one it is happy. 
 
 #### Approach Logic
@@ -107,52 +107,52 @@ public static int sumOfSquaresOfDigits(int n) {
 Alternatively I could have used:
 ```
 while (fast != 1 && slow != fast) {
-      slow = sumOfSquaredDigits(slow);
-      fast =  sumOfSquaredDigits(sumOfSquaredDigits(fast));
-  }
+    slow = sumOfSquaredDigits(slow);
+    fast =  sumOfSquaredDigits(sumOfSquaredDigits(fast));
+}
 return fast == 1;
 ```
 
 #### Time Complexity
 This solution is `O(log n)` because we are calculating the sum of sqaures,
-technically this is `O(log n)` + `O(log n)`  since we are doing it twice but it
-ultimately breaks down to `O(log n)`.
+     technically this is `O(log n)` + `O(log n)`  since we are doing it twice but it
+     ultimately breaks down to `O(log n)`.
 
 ### Linked List Cycle
-Write a program that when provided the head of a LinkedList returns true if
-there is a cycle in the list or false if it does not. 
+     Write a program that when provided the head of a LinkedList returns true if
+     there is a cycle in the list or false if it does not. 
 
 #### Approach Logic
-I will use a fast/slow pointer in this solution. The fast pointer will move at
-2X speed and the slow at 1X Speed iterating through the list. If the fast
-pointer or the fast.next pointer is ever null we know there is no cycle. If the
-fast and slow pointer ever end up on the same node we know there is a cycle. 
+     I will use a fast/slow pointer in this solution. The fast pointer will move at
+     2X speed and the slow at 1X Speed iterating through the list. If the fast
+     pointer or the fast.next pointer is ever null we know there is no cycle. If the
+     fast and slow pointer ever end up on the same node we know there is a cycle. 
 
-My Solution: `O(n)` for time, `O(1)` for space
-```java
-public static boolean detectCycle(LinkedListNode head) {
-LinkedListNode slow = head;
-LinkedListNode fast = head;
+     My Solution: `O(n)` for time, `O(1)` for space
+     ```java
+     public static boolean detectCycle(LinkedListNode head) {
+         LinkedListNode slow = head;
+         LinkedListNode fast = head;
 
-//Don't need this if we check for fast.next being null in the while loop
-if (head == null || head.next == null) {
-  return false;
-}
+         //Don't need this if we check for fast.next being null in the while loop
+         if (head == null || head.next == null) {
+             return false;
+         }
 
-while(fast != null) {
-//Also don't need this if we check for fast.next being null in the while loop
-  if (fast.next == null) {
-    return false;
-  }
-  slow = slow.next;
-  fast = fast.next.next;
-  if (slow == fast) {
-    return true;
-  }
+         while(fast != null) {
+             //Also don't need this if we check for fast.next being null in the while loop
+             if (fast.next == null) {
+                 return false;
+             }
+             slow = slow.next;
+             fast = fast.next.next;
+             if (slow == fast) {
+                 return true;
+             }
 
-}
-return false;
-}
+         }
+         return false;
+     }
 ```
 
 ### Middle of the Linked List
@@ -194,7 +194,7 @@ represents the number of places to skip forward (positive) or backward
 end of the array. If you do so you have a circular array. 
 
 * The same set of indices must be repeated when the sequence is traversed
-  according to the rules above. 
+according to the rules above. 
 * The length of the sequence is >= 2. 
 * The loop must be in a single direction forward or backward. 
 
@@ -207,66 +207,66 @@ the sequence continues.
 
 ```java
 
-  public static boolean circularArrayLoop(int[] nums) {
-  int size = nums.length;
-  for (int i = 0; i < size; i++) {
-    // Set slow and fast pointer at current index value.
-    int slow = i, 
-    int fast = i;
-    boolean forward = nums[i] > 0;
+public static boolean circularArrayLoop(int[] nums) {
+    int size = nums.length;
+    for (int i = 0; i < size; i++) {
+        // Set slow and fast pointer at current index value.
+        int slow = i, 
+            int fast = i;
+        boolean forward = nums[i] > 0;
 
-    while (true) {
-      slow = nextStep(slow, nums[slow], size);
+        while (true) {
+            slow = nextStep(slow, nums[slow], size);
 
-      if (isNotCycle(nums, forward, slow))
-        break;
+            if (isNotCycle(nums, forward, slow))
+                break;
 
-      fast = nextStep(fast, nums[fast], size);
-      if (isNotCycle(nums, forward, fast))
-        break;
+            fast = nextStep(fast, nums[fast], size);
+            if (isNotCycle(nums, forward, fast))
+                break;
 
-      fast = nextStep(fast, nums[fast], size);
-      if (isNotCycle(nums, forward, fast))
-        break;
-      
-      // Loop has been found
-      if (slow == fast)
-        return true;
+            fast = nextStep(fast, nums[fast], size);
+            if (isNotCycle(nums, forward, fast))
+                break;
+
+            // Loop has been found
+            if (slow == fast)
+                return true;
+        }
     }
-  }
 
-  return false;
+    return false;
 }
 
 public static int nextStep(int arrayIndex, int steps, int size) {
-  // To get how many steps we should move take the provided position, add the 
-  // steps provided and then take the modulus of that sum against the size.
-  // We take the modulus because we don't actually need to move through the
-  // array if the size is super large, we just need to know where we will end 
-  // up.
-  int result = (arrayIndex + steps) % size;
-  // If the result is negative we should add the size so that we can just add
-  // the number to the current value to move the pointer forward correctly. (We
-  // can do this because we used modulus in the previous line. 
-  if (result < 0) {
-      result = result + size;
-  }
-  return result;
+    // To get how many steps we should move take the provided position, add the 
+    // steps provided and then take the modulus of that sum against the size.
+    // We take the modulus because we don't actually need to move through the
+    // array if the size is super large, we just need to know where we will end 
+    // up.
+    int result = (arrayIndex + steps) % size;
+    // If the result is negative we should add the size so that we can just add
+    // the number to the current value to move the pointer forward correctly. (We
+    // can do this because we used modulus in the previous line. 
+    if (result < 0) {
+        result = result + size;
+    }
+    return result;
 }
 
 // A function to detect a cycle doesn't exist
 public static boolean isNotCycle(int[] nums, boolean prevDirection, int pointer) {
-  // Set current direction to true if current element is positive, 
-  // set false otherwise.
-  boolean currDirection = nums[pointer] >= 0;
-  
-  // If current direction and previous direction are different or moving a 
-  // pointer takes back to the same value, then the cycle is not possible, 
-  // we return true, otherwise return false.
-  if (prevDirection != currDirection || Math.abs(nums[pointer] % nums.length) == 0) {
-    return true;
-  }
-  return false;
+    // Set current direction to true if current element is positive, 
+    // set false otherwise.
+    boolean currDirection = nums[pointer] >= 0;
+
+    // If current direction and previous direction are different or moving a 
+    // pointer takes back to the same value, then the cycle is not possible, 
+    // we return true, otherwise return false.
+    if (prevDirection != currDirection || Math.abs(nums[pointer] % nums.length) == 0) {
+        return true;
+    }
+    return false;
 }
 
 ```
@@ -284,7 +284,7 @@ Constraints:
 * `nums.length` = n + 1
 * 1 <= n[i] <= n + 1
 * All integers in the array are unique except for one integer that will appear
-  more than once. 
+more than once. 
 
 #### Approach Logic
 Use a fast and slow pointer. Both points move using the values in the array.
@@ -296,29 +296,81 @@ on the intersection point.
 
 #### Solution
 ```java
-   public static int findDuplicate(int[] nums) {
-      int slow = nums[0];
-      int fast = nums[0];
-      // Find the Intersection Point
-      while(true) {
-         slow = nums[slow];
-         fast = nums[nums[fast]];
+public static int findDuplicate(int[] nums) {
+    int slow = nums[0];
+    int fast = nums[0];
+    // Find the Intersection Point
+    while(true) {
+        slow = nums[slow];
+        fast = nums[nums[fast]];
 
-         if (slow == fast) {
+        if (slow == fast) {
             break;
-         }
-      }
+        }
+    }
 
-     // Find the Cycle entrance. We start slow at the beggning of the array and
-     // the fast pointer at the intersection point. (Left it there from the
-     // previous loop.)
+    // Find the Cycle entrance. We start slow at the beggning of the array and
+    // the fast pointer at the intersection point. (Left it there from the
+    // previous loop.)
 
-      slow = nums[0];
-      while (slow != fast) {
-         slow = nums[slow];
-         fast = nums[fast];
-      }
+    slow = nums[0];
+    while (slow != fast) {
+        slow = nums[slow];
+        fast = nums[fast];
+    }
 
-      return fast;
-   }
+    return fast;
+}
+```
+
+### Linked List Palindrome
+Given a Linked list check whether or not the Linked List is a Palindrome.
+
+#### Solution Logic
+We will iterate through the list with one fast and one slow pointer. Slow at 1x
+and fast at 2x speed. When fast.next or fast.next.next equals null we know we
+have gotten to the end of the list. Next Reverse the 2nd half of the list and
+then compare the first half to the 2nd half of the list to make sure they are
+equal. If they are return true, if not false.
+
+#### Solution
+
+```java
+public static boolean palindrome(LinkedListNode head) {
+    LinkedListNode slow = head;
+    LinkedListNode fast = head;
+    //Get to the middle of the list with the slow pointer
+    while (fast.next != null && fast.next.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+
+    // Handle odd numbered List
+    if (fast.next == null) {
+        fast = head;
+        slow = LinkedListReversal.reverseLinkedList(slow);
+        while (slow.next != null) {
+            if (fast.data != slow.data) {
+                return false;
+            }
+            fast = fast.next;
+            slow = slow.next;
+        }
+    } else if (fast.next.next == null) {
+        // Handle even numbered list
+        if (slow.data != slow.next.data) {
+            return false;
+        }
+        slow = LinkedListReversal.reverseLinkedList(slow.next.next);
+        fast = head;
+        while(slow.next != null) {
+            if (fast.data != slow.data) {
+                return false;
+            }
+            fast = fast.next;
+            slow = slow.next;
+        }
+    }
+    return true;
+}
 ```
