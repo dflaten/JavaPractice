@@ -80,4 +80,56 @@ Constraints:
     return output;
   }
 ```
+### Insert Interval
+You are given a list of non-overlapping intervals, and you need to insert a new
+interval into the list. Each interval is a pair of non-negative numbers, the
+first being the start second end of the interval. Intervals are sorted by start
+time.
+
+The intervals in the output must also be sorted by the start time, and non of
+them should overlap. This may mean that you need to merge some intervals if
+they overlap.
+
+#### Solution
+
+* Add any intervals that are before the newInterval.
+* If the new Interval is the smallest, add it or if the newInterval's start
+  is greater than the lastInterval's end add it to the list. 
+* Else set the end on the lastInterval inserted to the greater value between
+  its current value and the value of the end on the newInterval. 
+* Now just merge any remaining items that are overlapping in the list.
+
+
+```java
+ public static List <Interval> insertInterval(List <Interval> existingIntervals, Interval newInterval) {
+    List <Interval> output = new ArrayList <Interval> ();
+    int currentInterval = 0;
+    // Add Intervals that are before the current Interval
+    while (currentInterval < existingIntervals.size() && 
+      existingIntervals.get(currentInterval).getStart() < newInterval.getStart()) {
+      output.add(existingIntervals.get(currentInterval));
+      currentInterval++;
+    }
+    // If the new Interval is the smallest interval add it to the list or if the 
+    // newInterval's start is greater than the lastIntervals end add it to the list
+    if (output.size() == 0 || 
+    output.get(output.size() - 1).getEnd() < newInterval.getStart()) {
+      output.add(newInterval);
+    }
+    // Else set the end on the last Interval to the greater value between the lastAdded's End
+    // and the newInterval's end
+    else output.get(output.size() - 1).setEnd(Math.max(output.get(output.size() - 1).getEnd(), newInterval.getEnd()));
+    // For the rest of the Intervals in the list, merge them if there is an overlap
+    while (currentInterval < existingIntervals.size()) {
+      Interval existingInterval = existingIntervals.get(currentInterval);
+      int start = existingInterval.getStart();
+      int end = existingInterval.getEnd();
+      if (output.get(output.size() - 1).getEnd() < start) output.add(existingInterval);
+      else output.get(output.size() - 1).setEnd(Math.max(output.get(output.size() - 1).getEnd(), end));
+      currentInterval += 1;
+    }
+    return output;
+  }
+```
+
 
