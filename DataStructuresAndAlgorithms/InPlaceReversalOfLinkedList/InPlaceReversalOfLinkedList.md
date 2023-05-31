@@ -240,3 +240,145 @@ integers, `left` and `right`. Our task is to reverse the list's nodes from
 position `left` to posisiton `right` and returned the reversed list.
 
 
+Non Working Solution
+```java
+import java.util.*;
+public class ReverseLinkedList{
+    public static LinkedListNode reverseBetween(LinkedListNode head, int left, int right) {
+    int currentNode = 1;
+    LinkedListNode current = head;
+    LinkedListNode previous = null;
+    LinkedListNode lastNodeofPreviousPart = null;
+    LinkedListNode lastNodeofCurrentPart =null;
+    while (current != null) {
+      lastNodeofPreviousPart = previous;
+      lastNodeofCurrentPart = current;
+      if (currentNode == left) {   
+        List<LinkedListNode> headAndTailOfReversedList = reverse(previous, current, right);
+//Stitching together the previous and current part
+        if(lastNodeOfPreviousPart != null)
+          lastNodeofPreviousPart.next = previous;
+        else 
+          head = previous;
+        lastNodeofCurrentPart.next = current;
+        break;
+      }
+      
+      previous = current;
+      current = current.next;
+      currentNode++;
+    }
+    return head;
+  }
+
+  public static List<LinkedListNode> reverse(LinkedListNode beforeHead, LinkedListNode head, int right) {
+    int counter = 0;
+    LinkedListNode current = head;
+    LinkedListNode previous = beforeHead;
+    LinkedListNode next = head.next;
+
+    while (current != null && counter < right) {
+      next = current.next;
+      current.next = previous;
+      previous = current;
+      current = next;
+      counter++;
+    }
+    //Return the head of the reversed list and the current(which is the next item in the list)
+    //List<LinkedListNode> resultList = Arrays.asList(beforeHead, previous);
+    List<LinkedListNode> resultList = Arrays.asList(previous, current, next);
+    return resultList;
+  }
+}
+```
+
+Provided Solution
+```java 
+    // Assume that the linked list has left to right nodes.
+    // Reverse left to right nodes of the given linked list.
+    public static LinkedListNode reverse(LinkedListNode head, int left, int right) {
+        LinkedListNode revHead = null;
+        LinkedListNode ptr = head; // a pointer to traverse the original list.
+        while (right >= left) {
+            // Track the next node to traverse in the original list
+            LinkedListNode next = ptr.next;
+
+            // At the beginning of the reversed list,
+            // insert the node pointed to by `ptr`
+            ptr.next = revHead;
+            revHead = ptr;
+
+            // Move on to the next node
+            ptr = next;
+
+            // Decrement the count of nodes to be reversed by 1
+            right -= 1;
+        }
+
+        // Return reversed list's head
+        return revHead;
+    }
+
+    public static LinkedListNode reverseBetween(LinkedListNode head, int left, int right) {
+        LinkedListNode ptr = head; // a pointer to traverse the original list.
+        // a pointer to keep the track of previous node
+        LinkedListNode nextNode = null;
+        LinkedListNode previous = null;
+        LinkedListNode reverseHead = null;
+        LinkedListNode rightNode = null;
+        // Keep traversing until left and right node number
+        int count = 1;
+        // Move the ptr to the left number node
+        while (count < left && ptr != null){
+            previous = ptr; // keep track of the previous node
+            ptr = ptr.next;
+            count += 1;
+        }
+        
+        if (ptr != null) {
+            // keep track of the next node outside the [left - right] 
+            // interval
+            nextNode = ptr;
+            while (count <= right && nextNode != null) {
+                // keep track of the right number node
+                rightNode = nextNode;
+                nextNode = nextNode.next;
+                count += 1;
+            }
+            // If we have found the left till right nodes, then we 
+            // reverse them.
+            if (rightNode != null) {
+                // Reverse these [left-right] nodes and get the new head
+                //  of the reversed list
+                reverseHead = reverse(ptr, left, right);
+            }
+
+            if (previous != null) {
+                // point previous.next to the reversed linked list
+                previous.next = reverseHead;
+            }
+
+            if (nextNode != null) {
+                // traverse in the reversed linked list until the last node
+                LinkedListNode tmp = reverseHead;
+                while (tmp.next != null) {
+                    tmp = tmp.next;
+                }
+                // add the next node to the reversed linked list
+                tmp.next = nextNode;
+            }
+
+        }
+
+        // We will reverse head if there are node before the [left-right]
+        // position interval
+        if (previous != null)
+            return head;
+        // We will simply return the reverse head if there is no node
+        // before the [left-right] position interval
+        else
+            return reverseHead;
+
+    }
+```
+
