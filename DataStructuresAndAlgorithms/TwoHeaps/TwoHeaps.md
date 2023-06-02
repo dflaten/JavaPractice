@@ -149,4 +149,42 @@ Maximum Capital: 1 + 2 + 8 = 11
 
 ##### Solution
 
+```java
+  public static int maximumCapital(int c, int k, int[] capitals,int[] profits) {
+      int currentCapital = c;
+         //Initialize the Priority Queue, a min heap for the captitals array
+         PriorityQueue<int[]> minHeapCapitals = new PriorityQueue<>((a,b)-> Integer.compare(a[0], b[0]));
+         //Add all the capitals to the 
+         for(int i = 0; i < capitals.length; i++) {
+            minHeapCapitals.offer(new int [] {capitals[i], i});
+         }
+         // Initialize another Priority Queue, a max heap for the profits 
+         PriorityQueue<int[]> maxHeapProfits = new PriorityQueue<>((a,b)-> Integer.compare(b[0], a[0]));
 
+         int i = 0;
+         // Choose Projects with the maximum profit until we get to the project
+         // limit.
+         while(i < k) {
+            // While the capital's minheap still has items in it and the smallest
+            // item in the heap is less than or equal to the currentCapital..
+            while(!minHeapCapitals.isEmpty() && minHeapCapitals.peek()[0] <= currentCapital) {
+               // Get the smallest item from the capitals min heap.
+               int [] j = minHeapCapitals.poll();
+               // Add the profit item at the same index as the smallest item
+               // from the capitals min heap and its index to the profit's max 
+               // heap.
+               maxHeapProfits.offer (new int[] {profits[j[1]], j[1]});
+            }
+            // If there aren't any items in the profits max heap we are done
+            if (maxHeapProfits.isEmpty()) {
+               break;
+            }
+            // Add the profit from the max heap to the currentCapital 
+            currentCapital += maxHeapProfits.poll()[0];
+            i++;
+         }
+         return currentCapital;
+   }
+```
+
+![maximizeCapital](maximizeCapital.png "Maximize Capital program execution")
