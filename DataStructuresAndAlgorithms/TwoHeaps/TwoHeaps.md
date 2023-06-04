@@ -188,3 +188,77 @@ Maximum Capital: 1 + 2 + 8 = 11
 ```
 
 ![maximizeCapital](maximizeCapital.png "Maximize Capital program execution")
+
+#### Find the median of a stream of Integers
+Implement a data structure that’ll store a dynamically growing list of integers
+and provide access to their median in `O(1)` time.
+
+##### Constraints
+There will be at least one element in the data structure before the median is 
+computed.
+
+##### Solution
+Split the incoming numbers into two heaps, one with all numbers less than or
+equal to the number and one greater than the number. Place the new number in
+one of the given heaps and rebalance the heaps after insert if needed. 
+
+Calculate the median as the average of the top of both heaps if you have an
+even number of elements and take the top of the small heap if not.
+
+```java
+import java.util.*;
+
+class MedianOfAStream {
+  PriorityQueue<Integer> heapOfSmallerHalf;
+  PriorityQueue<Integer> heapOfLargerHalf;
+  public MedianOfAStream() {
+    // Sorted to Largest in the Heap because we want to know the biggest number
+    // in the smaller half.
+    heapOfSmallerHalf = new PriorityQueue<>(new ReverseOrderIntegerComparator());
+    // This could also be written as 
+    // heapOfSmallerHalf = new PriorityQueue<>((a,b) -> b-a);    
+    
+    // Sorted to Smallest in the Heap because we want to know the smallest number
+    // in the larger half. (By Default priority queues are minHeaps)
+    heapOfLargerHalf = new PriorityQueue<>();
+    // This could also be written as 
+    // heapOfSmallerHalf = new PriorityQueue<>((a,b) -> a-b); 
+  }
+
+  public void insertNum(int num) {
+   if (heapOfSmallerHalf.isEmpty() || heapOfSmallerHalf.peek() >= num) {
+    heapOfSmallerHalf.add(num);
+  } else {
+    heapOfLargerHalf.add(num);
+  }
+  balanceHeaps();
+  }
+
+  public double findMedian() {
+    // Even number of elements means both sides are equal
+    if (heapOfSmallerHalf.size() == heapOfLargerHalf.size()) {
+        // we have even number of elements, take the average of middle two elements
+      return heapOfSmallerHalf.peek() / 2.0 + heapOfLargerHalf.peek() / 2.0;
+    }
+      // because max-heap will have one more element than the min-heap
+    return heapOfSmallerHalf.peek();
+  }
+
+  private void balanceHeaps() {
+    if (heapOfSmallerHalf.size() > heapOfLargerHalf.size() + 1){
+     heapOfLargerHalf.offer(heapOfSmallerHalf.poll());
+   } else if (heapOfSmallerHalf.size() < heapOfLargerHalf.size()) {
+     heapOfSmallerHalf.offer(heapOfLargerHalf.poll());
+   }
+  }
+}
+
+class ReverseOrderIntegerComparator implements Comparator<Integer> {
+   // Returns 0 if a == b
+   // Returns > 0 if b > a
+   // Returns < 0 if b < a  
+ public int compare(Integer a, Integer b) {
+  return b - a;  
+ }
+}
+```
