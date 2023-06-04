@@ -153,13 +153,13 @@ Maximum Capital: 1 + 2 + 8 = 11
   public static int maximumCapital(int c, int k, int[] capitals,int[] profits) {
       int currentCapital = c;
          //Initialize the Priority Queue, a min heap for the captitals array
-         PriorityQueue<int[]> minHeapCapitals = new PriorityQueue<>((a,b)-> Integer.compare(a[0], b[0]));
+         PriorityQueue<int[]> minHeapCapitals = new PriorityQueue<>((a,b)-> a[0] - b[0]);
          //Add all the capitals to the 
          for(int i = 0; i < capitals.length; i++) {
             minHeapCapitals.offer(new int [] {capitals[i], i});
          }
          // Initialize another Priority Queue, a max heap for the profits 
-         PriorityQueue<int[]> maxHeapProfits = new PriorityQueue<>((a,b)-> Integer.compare(b[0], a[0]));
+         PriorityQueue<int[]> maxHeapProfits = new PriorityQueue<>((a,b)-> (b[0]- a[0]);
 
          int i = 0;
          // Choose Projects with the maximum profit until we get to the project
