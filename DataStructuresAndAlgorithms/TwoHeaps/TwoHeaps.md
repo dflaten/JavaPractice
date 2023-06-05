@@ -76,9 +76,19 @@ maximum value from it, or Min Heap if we are looking for the minimum or perhaps
 if we just have one data set but need both the min and the max from the dataset
 we put the data set into both a Min and a Max Heap. 
 
+## Real World Examples
+Video Streaming: During a user session, there is often a possibility that
+packaet drops and buffering might occur. We want to record the median number of
+bufferring events that might occur in a particular session, which could then be
+used to improve the user experience.
+
+Netflix: As a part of a demographic study, we could be interested in teh median
+age of our viewers. We wan tto implement a functionality whereby the median age
+can be updated efficiently whenever a new user signs up for video streaming.
+
 ## Examples
 
-### Find Right Interval
+### Problem: Find Right Interval
 
 Given an array of intervals where `intervals[i] = [[start, end], [start,
 end]...]` and each `start` is unique. The **right interval** for an interval
@@ -105,20 +115,9 @@ interval is the first interval [2,3]. See picture below for more context.
 
 ![Intervals](intervals.png "Intervals")
 
-#### Maximize Capitals
+### Problem: Maximize Capitals
 ![MaximizeCapitals](MaximizeCapitals.png "Maximize Capitals")
 
-## Real World Examples
-Video Streaming: During a user session, there is often a possibility that
-packaet drops and buffering might occur. We want to record the median number of
-bufferring events that might occur in a particular session, which could then be
-used to improve the user experience.
-
-Netflix: As a part of a demographic study, we could be interested in teh median
-age of our viewers. We wan tto implement a functionality whereby the median age
-can be updated efficiently whenever a new user signs up for video streaming.
-
-#### Maximize Capitals Problem
 A busy investor with an initial capital, c, needs an automated investment
 program. They can select k distinct projects from a list of n projects with
 corresponding capitals requirements and expected profits. The goal is to
@@ -131,7 +130,7 @@ c - initial capital
 k - number of projects selected
 n - number of potential projects
 
-##### Example
+#### Example
 
 **Input**: n = 4, k = 2, c = 1
 Capitals:
@@ -147,7 +146,7 @@ Selected Profits: 2, 8
 Maximum Capital: 1 + 2 + 8 = 11
 
 
-##### Solution
+#### Solution
 
 ```java
   public static int maximumCapital(int c, int k, int[] capitals,int[] profits) {
@@ -189,15 +188,15 @@ Maximum Capital: 1 + 2 + 8 = 11
 
 ![maximizeCapital](maximizeCapital.png "Maximize Capital program execution")
 
-#### Find the median of a stream of Integers
+### Problem: Find the median of a stream of Integers
 Implement a data structure that’ll store a dynamically growing list of integers
 and provide access to their median in `O(1)` time.
 
-##### Constraints
+#### Constraints
 There will be at least one element in the data structure before the median is 
 computed.
 
-##### Solution
+#### Solution
 Split the incoming numbers into two heaps, one with all numbers less than or
 equal to the number and one greater than the number. Place the new number in
 one of the given heaps and rebalance the heaps after insert if needed. 
@@ -262,3 +261,51 @@ class ReverseOrderIntegerComparator implements Comparator<Integer> {
  }
 }
 ```
+
+### Problem: Sliding Window Median
+Given an integer array `nums` and an integer, `k`, there is a sliding window of
+size `k`, which is moving from the very left to the very right of the array. We
+can only see the `k` numbers in the window. Each time the sliding window moves
+right by one position. 
+
+Given this scenario, return the median of each window. 
+
+#### Examples
+**Input**: `k=4`, `[1,3,-1,2,-2,-3,5,1,5,3]`
+**Output**: `[1.5, .5, -1.5, 0.0, -.5, 3.0, 4.0]`
+
+#### First Solution Idea
+1. Create a new Data structure, `MedianOfStreamOfInts` which returns the median of a stream of
+   integers.
+2. Add the first median for the first `kth` interval to the solutions array.
+3. Update the interval by removing the first element from previous window from the
+   `MedianOfStreamOfInts` and then adding the next element. 
+4. Add the next median for this `kth` interval to the solutions array. 
+5. Repeat until the end of the `'kth` interval is the end of the input array.
+6. Return the solutions array. 
+
+*Problems With this solution*: The big problem with this solution is the
+removal of items from the `MedianOfStreamOfInts` data structure. We don't have
+an easy way to remove the previous element from the Heaps and removing an
+element is a costly operation, `O(n)` where n is the size of the heap.
+
+#### A Better Solution
+1. Create a min-heap and max-heap to store the elements of the sliding window.
+2. Push `k` elements onto the max-heap and transfer the higher numbers to the
+   min-heap.
+3. Compute the median of the window elements. If event this is the average of
+   the top of both stacks. If odd take the top of the max-heap.
+4. Move the window forward and re-balance the heaps. 
+5. If the incoming number is less than the top of the max-heap, push it onto
+   the max heap. else push it onto the min-heap. 
+6. If the outgoing number is at the top of either of the heaps, remove it from
+   that heap. (To track deleted numbers we will use a `Hashmap<Integer,
+   Integer>` where the first integer is the number and the second is the number
+   of instances of that number which need to be deleted from the heaps. We are 
+   using 'lazy deleting' here because we don't need the number deleted from the
+   heaps unless it will be used to calculate the median.
+7. Repeat the steps to calculate the median, add the incoming number, rebalance
+   the heaps, and remove the outgoing number from the heaps. 
+
+
+
