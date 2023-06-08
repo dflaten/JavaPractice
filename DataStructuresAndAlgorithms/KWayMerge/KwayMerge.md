@@ -13,10 +13,12 @@ Here is how it works:
 
 In this first picture you can see what the min heap and the merged array looks
 like  after the first time you get to step 4. 
+
 ![K-wayMerge](kwaymerge1.png "K-way merge, after first time it gets to step 4.")
 
 In this picture you can see what it looks like the second time it gets to step
 4.
+
 ![K-wayMerge](kwaymerge2.png "K-way merge, second time it gest to step 4.")
 
 ## How to Know if a problem matches this pattern
@@ -38,10 +40,10 @@ relevant to solving the problem.
 ## Real-world problems
 Many problems in the real world use the k-way merge pattern. Let’s look at some examples.
 
-1.*Merge tweets in twitter feed:* Sometimes we need to implement a module that 
+1. *Merge tweets in twitter feed:* Sometimes we need to implement a module that 
 adds a user’s Tweets into an already populated Twitter feed in chronological order.
 
-2. *Used in external sorting procedures:* When an algorithm is processing huge 
+1. *Used in external sorting procedures:* When an algorithm is processing huge 
 amounts of data, it needs to repeatedly fetch it from external storage because 
 RAM capacity is fixed. To overcome the speed limitation of external storage, 
 k-way merges are used in external sorting. Let’s consider a case where we need 
