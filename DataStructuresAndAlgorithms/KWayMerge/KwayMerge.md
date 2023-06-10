@@ -54,3 +54,79 @@ with large amounts of data.
 
 ## Examples
 
+### Merge Sorted Array
+Given two sorted integer arrays, `nums1` and `nums2`, and the number of data 
+elements in each array, `m` and `n`, implement a function that merges the 
+second array into the first one. You have to modify `nums1` in place.
+
+#### Constraints
+* `nums1.length = m + n`
+* `nums2.length = n`
+* 0 <= `m`, `n` <= 200
+* 1 <= `m + n` <= 200
+
+#### Solution
+
+```java
+public static int[] mergeSorted(int[] nums1, int m, int[] nums2, int n) {
+  int p1 = m-1;
+  int p2 = n-1;
+  int p = nums1.length - 1;
+
+  while(p2 >= 0) {
+  // If the value at p1 is greater than the value at p2, set the value at
+  // p equal to p1 and decrement p1 and p by 1
+  if(nums1[p1] > nums2[p2]) {
+     if(p2 < 0) {
+          break;
+     }
+     nums1[p] = nums1[p1];
+     if(p1 < p){
+        nums1[p1] = Integer.MIN_VALUE;
+     }
+     p--;
+     p1--;
+  // else if the value at p2 is greater than the value at p1, set the value at 
+  // p equal to p2 and decrement p2 and p by 1
+  } else if (nums2[p2] >= nums1[p1]) {
+     nums1[p] = nums2[p2];
+     p--;
+     p2--;
+  }
+  }
+  return nums1;
+}
+```
+
+```java
+public static int[] mergeSorted(int[] nums1, int m, int[] nums2, int n) {
+  int p1 = m-1;
+  int p2 = n-1;
+  int p = nums.length - 1;
+  // Iterate through the length of nums1 as it is the larger array where
+  // all our numbers will end up.
+  while(p >= 0) {
+    // If p2 is <0 that means we've compared all the numbers in both
+    // arrays and we can stop.
+    if (p2 < 0) {
+     break;
+   }
+   // If p1 is 0 or less we have compared all the numbers in p1 so we 
+   // should stop. Otherwise we should compare to see which is bigger. 
+   // nums1[p1] or nums2[p2]
+   if(p1 >=0 && nums1[p1] > nums2[p2]) {
+    nums1[p] = nums1[p1];
+    p--;
+    p1--;
+   // We use an else statement because if we either have nums2[p2] 
+   // greater than nums1[p1] or we have finished all the p1 numbers
+   // and we just need to fill in the rest of p2 
+  } else {
+   nums1[p] = nums2[p2];
+   p--;
+   p2--;
+ }
+}
+return nums1;
+}
+```
