@@ -67,6 +67,7 @@ second array into the first one. You have to modify `nums1` in place.
 
 #### Solution
 
+First Pass:
 ```java
 public static int[] mergeSorted(int[] nums1, int m, int[] nums2, int n) {
   int p1 = m-1;
@@ -98,6 +99,7 @@ public static int[] mergeSorted(int[] nums1, int m, int[] nums2, int n) {
 }
 ```
 
+Corrected Implementation:
 ```java
 public static int[] mergeSorted(int[] nums1, int m, int[] nums2, int n) {
   int p1 = m-1;
@@ -128,5 +130,156 @@ public static int[] mergeSorted(int[] nums1, int m, int[] nums2, int n) {
  }
 }
 return nums1;
+}
+```
+
+### Kth Smallest Number in M Sorted Lists
+Given an m number of sorted lists in ascending order and an integer, `k`, find
+the kth smallest number amoung all the given lists. 
+
+Although there can be repeating values in the lists, each element is considered
+unique and therefore contributes to calculating the kth smallest number. 
+
+If 'k' is greater than the total number of elements in the input lists. return
+the greatest element from all the lists and if there are no elements in the
+input lists, return 0. 
+
+#### Constraints
+* 1 <= `m` <= 300
+* 0 <= 'list[i].length <= 300 
+* 1 <= `k` <= 10^9
+
+#### Example
+L1 = [2,6,8]
+L2 = [3,6,10]
+L3 = [5,8,11]
+
+k = 5
+
+Output = 6 because it is the 6th number in the whole list:
+
+[2,3,5,6,6,8,8,10,11]
+
+#### Solution
+*Brute Force*
+1. Brute Force way would be to merge all items into a new array. 
+2. Return the k'th item from that Array
+
+*More Efficient Solution*
+1. Push the first element of each list in the min-heap.
+2. Remove the top (root) of the min-heap. 
+3. If the popped element has the next element in its list. push the next
+   element onto the min heap. 
+4. If k elements have been removed from the heap, return the last popped
+   element. 
+
+My solution below. This needs some tweaking to work but is pretty close:
+```java
+  public static int kSmallestNumber(List<List<Integer>> lists, int k) {
+
+    // Edge Cases
+    if (lists.stream().mapToBoolean(List::isEmpty()).reduce(true,(a,b) -> a && b)) {
+      return 0
+    }
+    if (k > lists.stream().mapToInt(List::size).sum();) {
+      return findLargestNumber(lists);
+    }
+    // FindSmallestKthNumber
+    // Will use a Heap of Integer arrays sorted by the smallest number in each list with the format:
+    // [a,b,c] where:
+    // a = smallest number in the list
+    // b = which list in the `lists` from the input a is from
+    // c = the index of a in b
+    PriorityQueue<int[]> minHeap = new PriorityQueue<>((a,b) -> Integer.compare(a[0], b[0]));
+    int numberOfPoppedItems = 0;
+    int [] lastItemPolled = new int [];
+   //Push the first Element of Each List onto the min heap.
+    for (int a = 0; a < lists.size(); a++) {
+      minHeap.offer(new int [] {lists.get(a).get(0), 0, 0});
+    }
+    
+    int numbersChecked = 0;
+    int smallestNumber = 0;
+
+    while (true) {
+      int i = 0;
+      lastItemPolled = minHeap.poll();
+      numberOfPoppedItems++;
+
+      if(numberOfPoppedItems == k) {
+        break;
+      }
+       // get the smallest number from top of heap and its corresponding list and index
+      int[] smallest = minHeap.poll();
+      smallestNumber = smallest[0];
+      int listIndex = smallest[1];
+      int numIndex = smallest[2];
+
+      // if there are more elements in list of the top element,
+      // add the next element of that list to the min-heap
+      if (numIndex + 1 < lists.get(smallest[1]).size()) {
+        kthSmallest.offer(new int[] {lists.get(listIndex).get(numIndex + 1), listIndex, numIndex + 1});
+      }
+
+    }
+
+    return lastItemPolled[0];
+    
+  }
+
+  public static findLargestNumber(List<List<Integer>> lists) {
+    int largestNumber = Integer.MIN_VALUE;
+    for (int i = 0; i < lists.size(); i++) {
+      List<Integer> current = lists.get(i);
+      if (current.get(current.size()-1) > largestNumber) {
+        largestNumber = current.get(current.size()-1);
+      }
+    }
+    return largestNumber;
+  }
+```
+
+Working Solution: 
+```java
+public static int kSmallestNumber(List<List<Integer>> lists, int k) {
+    // storing the length of lists to use it in a loop later
+    int listLength = lists.size();
+    // declaring a min-heap to keep track of smallest elements
+    PriorityQueue<int[]> kthSmallest = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+
+    for (int index = 0; index < listLength; index++) {
+        // if there are no elements in the input lists, continue
+        if (lists.get(index).size() == 0) {
+            continue;
+        } else {
+            // placing the first element of each list in the min-heap
+            kthSmallest.offer(new int[] {lists.get(index).get(0), index, 0});
+        }
+    }
+
+    // set a counter to match if our kth element
+    // equals to that counter, return that number
+    int numbersChecked = 0, smallestNumber = 0;
+    while (!kthSmallest.isEmpty()) {  // iterating over the elements pushed in our min-heap
+        // get the smallest number from top of heap and its corresponding list and index
+        int[] smallest = kthSmallest.poll();
+        smallestNumber = smallest[0];
+        int listIndex = smallest[1];
+        int numIndex = smallest[2];
+        numbersChecked++;
+
+        if (numbersChecked == k) {
+            break;
+        }
+
+        // if there are more elements in list of the top element,
+        // add the next element of that list to the min-heap
+        if (numIndex + 1 < lists.get(smallest[1]).size()) {
+            kthSmallest.offer(new int[] {lists.get(listIndex).get(numIndex + 1), listIndex, numIndex + 1});
+        }
+    }
+
+    // return the Kth number found in input lists
+    return smallestNumber;
 }
 ```
