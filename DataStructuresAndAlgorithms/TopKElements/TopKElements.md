@@ -53,4 +53,78 @@ In picture form:
 * Implement a stack in which the pop operation removes the most frequent
   element.
 
+## Example Problems
+
+### K'th Largest Element in a Stream
+Given an infinite stream of integers, `nums`, design a class to find the k'th
+largest element in a stream. 
+
+The class should have the following functions, inputs, and return values:
+
+* `Init()`: Takes an array of integers and an integer `k` and initializes the
+  class object. 
+* `Add(value)`: Takes one integer value, appends it to the stream and calls the
+  `ReturnKthLargest()`: Returns an integer value that represents the `kth`
+  largest element in the stream. 
+
+#### Constraints
+* 1 <= k <= 10^3
+* 0 <= nums.length <= 10^3
+
+#### Solution
+For `Init()`:
+1. Create a MinHeap and push the first k items froms nums onto it. 
+2. Iterate throught he remaining items in the list. If the number on the top of
+   the heap is < the number you are looking at. Add that number to the list and
+   then remove the item on the top of the heap. If it is not, do nothing.
+For `Add(value):
+1. Add Value to Minheap, remove the now top item from the Heap. Call
+   `returnKthLargest ();
+For `returnKethLargest()`: 
+1. call `peek()` on the minheap and return result. 
+
+
+```java
+class KthLargest {
+  PriorityQueue<Integer> minHeapOfTopK;
+  // constructor to initialize minHeapOfTopK and add values in it
+  public KthLargest(int k, int[] nums) {
+    minHeapOfTopK = new PriorityQueue<Integer>();
+
+    //Add first k items to heap.
+    for (int i = 0; i < k; i++) {
+      minHeapOfTopK.add(nums[i]);
+    }
+
+    //Add remaining items.
+    for (int j = k; j < nums.length; j++) {
+      if (nums[j] > minHeapOfTopK.peek()) {
+        minHeapOfTopK.add(nums[j]);
+        //Remove whatever is the lowest item now as we want k items in this
+        //heap
+        minHeapOfTopK.poll();
+      }
+    }
+  }
+  // adds element in the minHeapOfTopKHeap
+  public int add(int val) {
+    if (minHeapOfTopK.peek() < val) {
+      minHeapOfTopK.add(val);
+        //Remove whatever is the lowest item now as we want k items in this
+        //heap
+      minHeapOfTopK.poll();
+    }
+    return minHeapOfTopK.peek();
+  }
+  // returns kth largest element from minHeapOfTopKHeap
+  public int returnKthLargest() {
+    
+    return minHeapOfTopK.peek();
+  }
+}
+```
+
+Solution above should include null checks/validation on the constructor as
+needed. Left those out as I am practicin implementing the algorithm not writing
+something that is actual prod code. 
 
