@@ -128,3 +128,87 @@ Solution above should include null checks/validation on the constructor as
 needed. Left those out as I am practicin implementing the algorithm not writing
 something that is actual prod code. 
 
+*Time Complexity*
+Constructor - `O(nlog(n))` - As that is what it takes to add every item to the
+heap. 
+
+Add - `O(logk)` to add an element to a heap size of k
+
+ReturnKthLargest - `O(1)` since we are peeking at the top of the heap. 
+
+# Reorganize String
+Given a string, str, rearrange it so that any two adjacent characters are not
+the same. If such a reorganization of the characters is possible, output any
+possible valid arrangement. Otherwise, return an empty string.
+
+## Solution
+1. Store each character and its frequency in a HashMap. HashMap<Character,
+   Frequency>. 
+2. Construct a max-heap using the character frequency data. So that the most
+   frequently occurring character is at the root of the heap.
+3. Iterate over the heap and in each iteration, pop the most frequently
+   occuring character and append it to the result string.
+4. Decrement the frequency of the popped character, (since we have consumed one
+   occurence of it). 
+5. Push the popped character back onto the heap in the next iteration if the
+   updated frequency is greater than 0. If at this point the Heap is empty but
+   the updated frequency for that character is greater than 0, return empty
+   String. Else...
+6. Return the result string when the heap becomes empty.
+
+```java
+  public static String reorganizeString(String string1) {
+  //Create Map of Strings and their Frequency (This was my first thought)
+  // HashMap<String, Integer> characterFrequencyMap = new Hashmap();
+
+  // for(int i = 0; i < string1.length(), i++){
+  //   String currentChar = string1.getChar(i);
+  //   if (characterFrequencyMap.get(currentChar)) == null) {
+  //     characterFrequencyMap.add(currentChar, 1);
+  //   } else {
+  //     charFrequencyMap.add(currentChar, 
+  //       characterFrequencyMap.get(currentChar) +1);
+  //   }
+  // }
+
+  // I realized later I could do like so:
+  HashMap<Character, Integer> characterFrequencyMap = new HashMap<Character, Integer>();
+  for(char c: string1.toCharArray()) {
+    int freq = characterFrequencyMap.getOrDefault(c, 0 ) + 1;
+    characterFrequencyMap.put(c, freq);
+  }
+
+  //Create a MaxHeap using the frequency data for the characters
+  PriorityQueue<Map.Entry <Character, Integer>> maxFreqChars = 
+    new PriorityQueue<Map.Entry<Character, Integer>> (
+      (a, b) -> b.getValue() - a.getValue());
+
+  maxFreqChars.addAll(characterFrequencyMap.entrySet());
+
+  Map.Entry<Character, Integer> previous = null;
+  StringBuilder result = new StringBuilder(string1.length());
+
+  while (!maxFreqChars.isEmpty() || previous != null) {
+    //Can't make a reorginized String
+    if (maxFreqChars.isEmpty() && previous != null) {
+      return "";
+    }
+    Map.Entry<Character, Integer> current = maxFreqChars.poll();
+    result.append(current.getKey());
+    int currentFreq = current.getValue() - 1;
+
+    if (previous != null) {
+        maxFreqChars.add(previous);
+        previous = null;
+    }
+    if (currentFreq != 0) {
+      previous = new AbstractMap.SimpleEntry<>(current.getKey(), currentFreq);
+
+    }
+  }
+
+    return result.toString();
+}
+```
+
+
