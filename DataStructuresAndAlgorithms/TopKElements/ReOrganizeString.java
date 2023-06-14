@@ -57,7 +57,7 @@ public class ReOrganizeString {
       StringBuilder result = new StringBuilder(string1.length());
 
       while (!maxFreqChars.isEmpty() || previous != null) {
-        //Can't make a reorginized String
+        //Can't make a reorganized String
         if (maxFreqChars.isEmpty() && previous != null) {
           return "";
         }

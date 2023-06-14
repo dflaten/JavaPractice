@@ -136,12 +136,12 @@ Add - `O(logk)` to add an element to a heap size of k
 
 ReturnKthLargest - `O(1)` since we are peeking at the top of the heap. 
 
-# Reorganize String
+### Reorganize String
 Given a string, str, rearrange it so that any two adjacent characters are not
 the same. If such a reorganization of the characters is possible, output any
 possible valid arrangement. Otherwise, return an empty string.
 
-## Solution
+#### Solution
 1. Store each character and its frequency in a HashMap. HashMap<Character,
    Frequency>. 
 2. Construct a max-heap using the character frequency data. So that the most
@@ -189,7 +189,7 @@ possible valid arrangement. Otherwise, return an empty string.
   StringBuilder result = new StringBuilder(string1.length());
 
   while (!maxFreqChars.isEmpty() || previous != null) {
-    //Can't make a reorginized String
+    //Can't make a reorganized String
     if (maxFreqChars.isEmpty() && previous != null) {
       return "";
     }
@@ -211,4 +211,7 @@ possible valid arrangement. Otherwise, return an empty string.
 }
 ```
 
-
+#### Solution Complexity
+`O(n)` because you need to iterate through the whole string and the worse 
+case of pushing all characters on the string is`O(log(c))` but c is always 
+the number of unique characters, a constant. 
