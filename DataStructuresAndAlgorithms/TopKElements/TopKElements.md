@@ -77,10 +77,12 @@ For `Init()`:
 2. Iterate throught he remaining items in the list. If the number on the top of
    the heap is < the number you are looking at. Add that number to the list and
    then remove the item on the top of the heap. If it is not, do nothing.
+
 For `Add(value):
 1. Add Value to Minheap, remove the now top item from the Heap. Call
-   `returnKthLargest ();
-For `returnKethLargest()`: 
+   `returnKthLargest()`
+
+For `returnKthLargest()`: 
 1. call `peek()` on the minheap and return result. 
 
 
