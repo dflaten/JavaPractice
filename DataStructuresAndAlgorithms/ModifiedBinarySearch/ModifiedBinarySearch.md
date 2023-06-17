@@ -25,6 +25,32 @@ Here are the steps assuming ascending order:
 Binary Search operates at `O(log(n))` time since we divide the list in half at
 each step.
 
+```java
+public int binarySearch(int[] nums, int target) {
+ int left = 0;
+ int right = nums.length - 1;
+ int middle = 0;
+ 
+ while (left <= right) {
+    middle = right + left / 2;
+    if (nums[middle] == target) {
+       return middle;
+    }
+    // check left
+    if (nums[middle] < target) {
+        // Since we have already checked middle and this is our left pointer
+        // we add one to middle and move it to the right.
+        left = middle + 1;
+     } else {
+        // Since we have already checked middle and this is our right pointer
+        // we subjctract one to middle and move it to the left.
+        right = middle - 1;
+     }
+ }
+ return -1;
+}
+```
+
 ## Modified Binary Search
 
 The modified binary search pattern involves taking the traditional binary
@@ -67,4 +93,68 @@ variations include:
 * *Student Documents*: Given a list of students sorted by their scores on a
   test, find all the students that scored between 40% and 55%. 
 
+## Example Problems
 
+### Search in Rotated Sorted Array
+
+Given a sorted integer array, `nums`, and and integer target value, `target`
+the array is rotated by some arbitray number. Search and return the index of
+`target` in this array. If the `target` does not exist, return `-1`. 
+
+Original Sorted Array: 
+`|1|2|3|4|5|6|7|8|9|`
+
+After rotating array 6 times:
+`|7|8|9|1|2|3|4|5|6|`
+
+```java
+import java.util.*;
+public class Main{
+   public static int binarySearchRotated(List<Integer> nums, int target) {  
+    int left = 0;
+    int right = nums.size() - 1;
+    int middle = 0;
+    
+    while (left <= right) {
+       middle = right + left / 2;
+       if (nums.get(middle) == target) {
+          return middle;
+       }
+        // These variables/methods for tracking if the right and left are 
+        // sourted are not required of course but helped me to break up the 
+        // code while understanding it.
+       boolean isSortedRight = false;
+       boolean isSortedLeft = false;
+       if (nums.get(middle) <= nums.get(right)) {
+          isSortedRight = true;
+       }
+       if (nums.get(middle) >= nums.get(left)) {
+          isSortedLeft = true;
+       }
+       if (isSortedLeft) {
+          // If the target is within the sorted left hand side
+        if (nums.get(left) <= target && target < nums.get(middle)) {
+            // Drop the right
+         right = middle -1;
+      } else {
+            // Drop the left since the item is not within the sorted left
+         left = middle +1;
+      }
+   }
+   if (isSortedRight){
+           // If the target is within the sorted right
+     if (nums.get(middle) < target && target <= nums.get(right)) {
+            // Drop the left
+      left = middle + 1;
+   } else {
+            // Drop the right since the item is not within the sorted right
+      right = middle - 1;
+   }
+   
+   
+}
+}
+return -1;
+}
+}
+```
