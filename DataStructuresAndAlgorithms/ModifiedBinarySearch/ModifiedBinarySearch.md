@@ -158,3 +158,18 @@ return -1;
 }
 }
 ```
+
+### First Bad Version
+The latest version of a software product has a bug in it. Since each version is
+built upon the previous one, all the versions after the bad version are
+considered bad. Suppose you have `n` versions with the ids: `[1,2,3,...,n]` and
+you have access to an API function that returns `TRUE` if the argument is the
+ID of a bad version. 
+
+Find the first bad version that is causing all the later ones to be bad.
+Additionally the solution should also return the number of API calls made
+during the process and should minimize the number of API calls too. 
+
+![FirstBadVersionExample](FirstBadVersion.png "First bad version example.")
+
+
