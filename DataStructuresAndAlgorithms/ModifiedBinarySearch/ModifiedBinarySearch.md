@@ -172,4 +172,93 @@ during the process and should minimize the number of API calls too.
 
 ![FirstBadVersionExample](FirstBadVersion.png "First bad version example.")
 
+First Try:
+This solution before works in the sense that it does find the first bad version
+however it does make more calls than necessary to the `isBadVersion()` API.
+```java
+public class FBVersion{
+   //This is a given method which I don't modify.
+   static Api versionApi = new Api();
 
+   public static boolean isBadVersion(int v){
+      return versionApi.isBad(v);
+   }
+   
+   public static int[] firstBadVersion(int n) {
+      // -- GIVEN, DO NOT CHANGE THIS SECTION
+      versionApi.n = n;
+     // -- 
+
+      int first = 1;
+      int last = n;
+      int apiCounter = 0;
+      // We are doing a binary search here
+      while (first < last) {
+      int mid = (first + last) / 2;
+      
+      apiCounter++;
+      // If the mid point is bad, drop the rest because we are looking for just
+      // the first instance of bad.
+      if (isBadVersion(mid)) {
+         last = mid;
+         apiCounter++;
+         //I added a call here to check for the first bad version.
+         if (!isBadVersion(mid - 1)) {
+            return new int[]{mid, apiCounter};
+         }
+      } else {
+      // Since the mid point is NOT bad we can drop the first half ot the list
+      // because it will be all good. 
+         first = mid+1;
+      }
+
+      }
+      // This is never needed because we always have at least one good version
+      // according to the constraints of the problem.
+      return new int[]{0,0};
+   }
+}
+```
+Updated Version: 
+This version removes some uneccessary calls to the `isBadVersion()` method.
+```java
+public class FBVersion{
+   //This is a given method which I don't modify.
+   static Api versionApi = new Api();
+
+   public static boolean isBadVersion(int v){
+      return versionApi.isBad(v);
+   }
+   
+   public static int[] firstBadVersion(int n) {
+      // -- GIVEN, DO NOT CHANGE THIS SECTION
+      versionApi.n = n;
+     // -- 
+
+      int first = 1;
+      int last = n;
+      int apiCounter = 0;
+      // We are doing a binary search here
+      while (first < last) {
+      int mid = (first + last) / 2;
+      
+      apiCounter++;
+      // If the mid point is bad, drop the rest because we are looking for just
+      // the first instance of bad.
+      if (isBadVersion(mid)) {
+         last = mid;
+      } else {
+      // Since the mid point is NOT bad we can drop the first half ot the list
+      // because it will be all good. 
+         first = mid+1;
+      }
+
+      }
+      // Because we are always dropping the half of the list that is not bad
+      // and the last half of the loop that IS bad we won't break out of the
+      // loop until first == last. At that point we will have one item
+      // remaining, the last good version.
+      return new int[]{first, apiCounter};
+   }
+}
+```
