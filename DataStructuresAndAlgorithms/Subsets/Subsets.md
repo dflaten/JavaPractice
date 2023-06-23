@@ -85,11 +85,14 @@ each subset.
 
 Input: `{13,2,3}`
 
-| ------------------------- | --- | ---- | ---------- | ---------- | ----- | -------- |
-| **Output Set**            | {}  | {13} | {2}|{13,2} | {3}|{13,3} | {2,3} | {13,2,3} |
-| **Binary Representation** | 000 | 001  | 010|011    | 100|101    | 110   | 111      |
+|                           |     |      |            |            |        |        |       |          |
+| ------------------------- | --- | ---- | ---------- | ---------- | -----  | ------ | ----- | -------- |
+| **Output Set**            | {}  | {13} | {2}        | {13,2}     | {3}    | {13,3} | {2,3} | {13,2,3} |
+| **Binary Representation** | 000 | 001  | 010        | 011        | 100    | 101    | 110   | 111      |
 
 ```java
+    // TODO: Look into bit masks more to understand how this works and how I
+    // can apply it to other problems.
 	static int getBit(int num, int bit) {
 		// shifts the first operand the specified number of bits to the left
 		int temp = (1 << bit);
