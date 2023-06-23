@@ -61,3 +61,75 @@ movies to provide options for a movie marathon.
 
 *Total cost of Shipping items*: An equation calculating the toal cost of items
 neededs to be devided into subsets of items.  
+
+## Problems
+
+### Subsets
+Given an array of integers, `nums`, find all possible subsets of `nums`,
+including the empty set.
+
+#### Solution Steps
+1. Compute the number of possible subsets of the given set using 2^n, where `n`
+   is the number of elements.
+2. Start a loop from 0 to count the number of subsets and add an empty list to
+   the results list in the first iteration. 
+3. In each iteration, create a bit mask of length `n` for each element in the
+   input set. If the ith bit is set, set[i] will be present in the current
+   subset. 
+4. After iterating over all the elements in the input set, append the current
+   subset to the lit of subsets. 
+
+So for example if n = 3. We will have 8 sub sets. We can use binary
+respresentations of indices to represent which elements should be included in
+each subset. 
+
+Input: `{13,2,3}`
+
+| ------------------------- | --- | ---- | ---------- | ---------- | ----- | -------- |
+| **Output Set**            | {}  | {13} | {2}|{13,2} | {3}|{13,3} | {2,3} | {13,2,3} |
+| **Binary Representation** | 000 | 001  | 010|011    | 100|101    | 110   | 111      |
+
+```java
+	static int getBit(int num, int bit) {
+		// shifts the first operand the specified number of bits to the left
+		int temp = (1 << bit);
+
+		// if binary number and current subset count are equal,
+		// return 1 else return 0
+		temp = temp & num;
+		if (temp == 0) {
+			return 0;
+		}
+		return 1;
+	}
+
+	static List<List<Integer>> findAllSubsets(int[] nums) {
+		List<List<Integer>> setsList = new ArrayList<>();
+		if (nums.length != 0) {
+			// finds number of subsets by taking power of length of input array
+			int subsetsCount = (int) (Math.pow(2, nums.length));
+
+			for (int i = 0; i < subsetsCount; ++i) {
+				// Set is created to store each subset
+				List<Integer> subset = new ArrayList<>();
+				for (int j = 0; j < nums.length; ++j) {
+					// if a specific bit is 1, chooses that number from the original set
+					// and add it to the current subset
+					if (getBit(i, j) == 1) {
+						int x = nums[j];
+						subset.add(x);
+					}
+					
+				}
+				System.out.println("\tCurrent generated subset: "+ subset.toString());
+				// all subsets are now pushed back in the hah set list
+				setsList.add(subset);
+				System.out.println("\tSubsets list: "+ setsList.toString()+"\n");
+			}
+		} else {
+			List<Integer> emptySet = new ArrayList<>();
+			setsList.add(emptySet);
+		}
+		return setsList;
+	}
+```
