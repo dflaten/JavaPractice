@@ -136,3 +136,66 @@ Input: `{13,2,3}`
 		return setsList;
 	}
 ```
+
+### Permutations
+Given an input string, return all possible permutations of the String.
+
+**Constraints**: 
+* All characters in the input string are unique. 
+* 1 <= word.length <= 6
+
+**Example**:
+*Input*: `"bad"`
+*Output*: `["bad", "bda", "abd", "adb", "dab", "dba"]`
+
+#### Solution
+
+1. Starting from the first index as the current index, recursively compute the
+   permutations of the input String.
+2. Compute the permutation by swapping the current index with every index in
+   the remaining string.
+3. Recurse the computation step by incrementing the current index by 1. 
+4. If we reach the end of the string, store the current string as a
+   permutation.
+5. Return the list of all permutations.
+
+```java
+import java.util.*;
+public class Main{
+    // Need method to swap characters of a given word and letter locations.
+    public static char [] swapChar(String word, int i, int j) {
+        char [] charArray = word.toCharArray();
+        char temp = charArray[i];
+        charArray[i] = charArray[j];
+        charArray[j] = temp;
+
+        return charArray;
+    }
+
+    // Recursive Method to create permutations. 
+    public static void permuteWordRecursively(String word, int currentIndex, ArrayList<String> results) {
+        // Base Case
+        if (currentIndex == word.length() - 1) {
+            results.add(word);
+            return;
+        }
+        // Iterate through the String
+        for (int index = currentIndex; index < word.length(); index++) {
+            // Swapping the String using the current index and the iterating index
+            char [] swappedStr = swapChar(word, currentIndex, index);
+            //Recursively call to now swap the swapped string and the current index increased by one.
+            // TODO: Understand how and in what order does this generate the unique permutaitons?
+            permuteWordRecursively(String.valueOf(swappedStr), currentIndex + 1, results);
+        }
+    }
+    // Main Method to be called and return the permutations.
+    public static ArrayList<String> permuteWord(String word) {
+        ArrayList<String> permutations = new ArrayList<>();
+
+        permuteWordRecursively(word, 0, permutations);
+
+        return permutations; 
+        
+    }
+}
+```
