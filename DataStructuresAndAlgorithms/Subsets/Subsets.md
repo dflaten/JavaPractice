@@ -173,6 +173,8 @@ public class Main{
     }
 
     // Recursive Method to create permutations. 
+    // See the RecursiveSwitch.java file for an explanation on how we are 
+    // generating all possible permutations with this recursive function.
     public static void permuteWordRecursively(String word, int currentIndex, ArrayList<String> results) {
         // Base Case
         if (currentIndex == word.length() - 1) {
@@ -184,7 +186,6 @@ public class Main{
             // Swapping the String using the current index and the iterating index
             char [] swappedStr = swapChar(word, currentIndex, index);
             //Recursively call to now swap the swapped string and the current index increased by one.
-            // TODO: Understand how and in what order does this generate the unique permutaitons?
             permuteWordRecursively(String.valueOf(swappedStr), currentIndex + 1, results);
         }
     }
