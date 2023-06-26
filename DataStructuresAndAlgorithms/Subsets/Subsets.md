@@ -200,3 +200,65 @@ public class Main{
     }
 }
 ```
+
+### Letter Combinations of a Phone Number
+Given a string containing digits from 2 - 9 inclusive, return all possible
+letter combinations that the number could represent. ie:  2 -> {a,b,c} etc. 
+
+**Constraints**
+1. Number of digits will be between 1 <= digits.length() <= 6
+
+#### Solution Description
+1. Generate a Map storing all the possible numbers and their letter
+   equivalents. 
+2. Recursively generate all combinations of the possible letters for the given
+   input string using the map from step 1. 
+
+#### Solution
+```java
+    public HashMap<String, String[]> buildNumberLetterMap() {
+        HashMap<String, String[]>map = new HashMap<String,String[]>();
+        map.put("2", new String[]{"a","b","c"});
+        map.put("3", new String[]{"d","e","f"});
+        map.put("4", new String[]{"g","h","i"});
+        map.put("5", new String[]{"j","k","l"});
+        map.put("6", new String[]{"m","n","o"});
+        map.put("7", new String[]{"p","q","r","s"});
+        map.put("8", new String[]{"t","u","v"});
+        map.put("9", new String[]{"w","x","y","z"});
+        return map;
+    }
+
+    public void generateCombinations(HashMap<String, String[]> numberLetterMap, 
+        List<String> results, int currentIndex, String digits, StringBuilder perm) {
+
+            if (perm.length() == digits.length()) {
+                results.add(perm.toString());
+                return;
+            }
+
+            String digit = String.valueOf(digits.charAt(currentIndex));
+            String[] letters = numberLetterMap.get(digit); 
+                //Generate Combinations
+            for(String letter: letters) {
+                perm.append(letter); 
+                generateCombinations(numberLetterMap, results, currentIndex + 1, digits, perm);
+                // Need this removed so that when you are backtracking you do not
+                // have an extra character included. For example 'a' for 2 when 
+                // generating the 'b' strings.
+                perm.deleteCharAt(perm.length() - 1);
+            }
+    }
+
+    public List<String> letterCombinations(String digits){
+        // Build map for reference
+        HashMap<String, String[]> numberLetterMap = buildNumberLetterMap();
+        List<String> results = new ArrayList<String>();
+        StringBuilder perm = new StringBuilder();
+
+        generateCombinations(numberLetterMap, results, 0, digits, perm);
+
+        return results;
+    }
+```
+
