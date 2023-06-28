@@ -35,4 +35,66 @@ not globally optimal solution.
   know through the Dijkstra algorithm which finds the shortest path between
   users measured through connections among them.
 
+## Examples
 
+### Jump Game
+In a single-player jump game, the player startsat the end of a series of
+squares with the goal of reaching the last square. At each turn the player can
+take up to `s` steps towards the last square, where `s`is the value of the
+current square. The player cannot move away from the square at any point. 
+
+You have been tasked with writing a function to validate whether the player can
+win a given game or not. You are provided with a `nums` integer array,
+representing the series of squares. The value at every index represents the
+maximum number of jumps you can take from that point. The player starts at the 
+first index and follows the rules of the game trying to reach the last index. 
+
+If the player can reach the end return `TRUE` otherwise return `FALSE`. 
+
+#### Example Run
+Input: `[2,3,1,1,4]` 
+Output: `TRUE`
+
+Input: `[3,0,0,0,0]` 
+Output: `FALSE`
+
+#### Solution
+1. Set the last element in the array as your initial target. 
+2. Traverse the array from the end to the first element in the array. 
+3. If the current index is reachable from any preceding index, based on the
+   value at that index, make that index the new target. 
+4. If you reach the first index of the array without finding any index from
+   which the current target is reachable, return false. 
+5. Else, if you are able to move each current target backward, all the way to
+   the first index of the array, you've found a path from the start to the end
+   of the array, return true.
+
+```java
+public class JumpGame{
+   public static boolean jumpGame(int[] nums) {
+      int currentIndex = nums.length - 1; 
+      //Iterate through the possible jumps from the current location.
+      for (int i = nums.length - 2; i >= 0; i--) {
+        // Here we are checking if we can get to the current Index from the 
+        // previous index using the value at the previous (at least the previous
+        // for the first iteration).
+        //
+        // The only concern I have with this approach is how do you know for 
+        // certain that you did not make an incorrect jump as you are moving
+        // backward? 
+        // This question seems to have an answer: 
+        // https://cs.stackexchange.com/questions/146619/greedy-stays-ahead-proof-of-jump-game
+        if (currentIndex <= (i + nums[i])) {
+          //If we can we update the currentIndex to the index at i.
+          currentIndex = i;
+        }
+      }
+      //If when the loop finishes executing we are at the start we can make it.
+      if (currentIndex == 0) {
+        return true;
+      }
+      // If when the loop finishes we are not at the start we can't make it. 
+      return false;
+   }
+}
+```
