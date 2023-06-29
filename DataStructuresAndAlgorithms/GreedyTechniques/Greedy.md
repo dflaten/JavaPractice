@@ -98,3 +98,33 @@ public class JumpGame{
    }
 }
 ```
+
+### Boats to Save People
+A ship with a lot of passengers is sinking and needs to be evacuated using the
+minumum number of life-saving boats. Each boat can carry, at most, two persons
+however the weight of the people cannot exceep the carrying capacity of the
+boat.
+
+Given an array, `people`, where `people[i]`, is the weight of the i'th person
+and an infinite number of boats where each boat can carry at most the `limit`
+weight. 
+
+Return the number of minimum boats to carry all the people in the array.
+
+**Constraints**
+* `1 <= people.length <= 3 * 10^3`
+* `1 <= people[i] <= limit <= 3 * 10^3`
+
+#### Solution
+1. Sort the people array so that the lightest person is at the start of the
+   array. 
+2. Intiialize two pointers - left at the start and right at the end. 
+3. Iterate over the `people` array and check if the combined weight of the
+   lightest and heaviest person is under the limit. If it is increment the `left`
+   pointer and decrement the `right` pointer.
+4. Otherwise rescure the heaviest person alone and decrement the `right`
+   pointer. 
+5. Increment the number of boats. 
+6. Once finished return the number of boats.
+
+
