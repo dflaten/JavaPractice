@@ -116,6 +116,12 @@ Return the number of minimum boats to carry all the people in the array.
 * `1 <= people[i] <= limit <= 3 * 10^3`
 
 #### Solution
+
+This problem is a "Greedy" problem because we are trying to optimize the number
+of boats needed to carry all the people. In order to get the most optimal
+solution you would need to compare most/almost all combinations to find the
+most optimal solution. This approach gets us a probably pretty decent solution.
+
 1. Sort the people array so that the lightest person is at the start of the
    array. 
 2. Intiialize two pointers - left at the start and right at the end. 
@@ -127,4 +133,36 @@ Return the number of minimum boats to carry all the people in the array.
 5. Increment the number of boats. 
 6. Once finished return the number of boats.
 
+#### Code Solution
+```java
+import java.util.*;
 
+public class RescueBoats{
+   public static int rescueBoats(int[] people, int limit) {
+      // Sort the Array
+      Arrays.sort(people);      
+      // Pointers
+      int left = 0; 
+      int right = people.length - 1;
+      // tracker
+      int boats = 0;
+
+      // First time I had just a '<' instad of '<='
+      // Without that I will not get the last boat created and will stop before
+      // the end of the list of people is completed.
+      while (left <= right) {
+         // Here I had just a '<' instead of '<=' this is incorrect because you
+         // can reach the limit but not exceed it.
+         if ((people[left] + people[right]) <= limit) {
+            left++;
+            right--;
+            boats++;
+         } else {
+            right--;
+            boats++;
+         }
+      }
+      return boats;
+   }
+}
+```
