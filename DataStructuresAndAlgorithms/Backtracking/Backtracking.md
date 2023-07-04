@@ -55,3 +55,49 @@ path through the grammar and follows that. This can occur several times until
 the compiler finds a grammar path that fits the incoming tokens, in which case
 it accepts the construct. If it find no matching path, a syntax error is shown.
 
+## Problems
+
+### N Queens
+Given a chessboard of size `n x n` determine how many ways n queens can be
+placed on the board such that no two queens attack each other. 
+
+#### Constraints
+* A queen can move horizontally, vertically, and diagonally on a chessboard.
+  One queen can be attacked by another queen if they both share the same row,
+  column, or diagonal
+* `1 <= n <= 9`
+
+![Queen Example](QueenExample.png "The input is n=4, the output is 2")
+
+#### Solution
+
+1. Start by placing a queen in the first column of the first row of the chess
+   board. 
+2. Since you can't place another queen in a row that already has one, search
+   for a safe position for the next queen in the next row. 
+3. Iterate over the rows to find a safe placement for the queens. Store the
+   column number where a queen is placed in a list. 
+4. If a safe position is not found, backtrack to the previous valid placement.
+   Search for another solution.
+5. If a complete solution is found add it to the results array and backtrack to
+   find other valid solutions in the same way.
+
+```java
+import java.util.*;
+public class Main{
+    public static int solveNQueens(int n) {
+        // This list stores the list of possible results.
+        List<List<Integer>> results = new ArrayList<>();
+        // This array keeps track of the current solution.
+        List<Integer> solution = new ArrayList<Integer> (Collections.nCopies(n, -1));
+        solveNQueensRec(n, solution, 0, results);
+        return results.size();
+    }
+
+    private void solveNQueensByBacktracking(int solutions, int n) {
+       //Create the n x n board
+       int[][] board = new int[n][n];
+       int queensPlaced = 0;
+    }
+}
+```
