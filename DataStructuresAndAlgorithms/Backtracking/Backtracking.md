@@ -82,6 +82,19 @@ placed on the board such that no two queens attack each other.
 5. If a complete solution is found add it to the results array and backtrack to
    find other valid solutions in the same way.
 
+![Queen 1](Queens1.png "Place the first queen first position first row.") 
+![Queen 2](Queens2.png "Place the second queen thrid position, 2nd row.")
+![Queen 3](Queens3.png "No place for third queen in third row.")
+![Queen 4](Queens4.png "Backtrack to 2nd row and place 2nd queen on 4th column.")
+![Queen 5](Queens5.png "Place 3rd queen in 2nd column 3rd row.")
+![Queen 6](Queens6.png "No place for Queen on 4th row.")
+![Queen 7](Queens7.png "No other place for Queen on 3rd row.")
+![Queen 8](Queens8.png "No other place for Queen on 2nd row.")
+![Queen 9](Queens9.png "Trying 1rst Queen in 2nd column.")
+![Queen 10](Queens10.png "2nd Queen in 4th column.")
+![Queen 11](Queens11.png "3rd queen on 1rst column.")
+![Queen 12](Queens12.png "4th queen on 3rd column. A successful solution!")
+
 ```java
 import java.util.*;
 public class Main{
@@ -98,6 +111,31 @@ public class Main{
        //Create the n x n board
        int[][] board = new int[n][n];
        int queensPlaced = 0;
+    }
+    /** 
+     * This method determines if a queen can be placed at proposedRow, proposedCol
+     * with current solution. Move is valid only if no queen in current
+     * solution may attack the square at proposedRow and proposedCol.
+    */
+    public static boolean isValidMove(int proposedRow, int proposedCol, List<Integer> solution) {
+        int oldRow = 0;
+        int oldCol = 0;
+        int diagonalOffset = 0;
+
+        for (int i = 0; i<proposedRow; i++) {
+            oldRow = i;
+            oldCol = solution.get(i);
+            diagonalOffset = proposedRow - oldRow;
+
+            if (oldCol == proposedCol || 
+                oldCol == proposedCol - diagonalOffset || 
+                oldCol == proposedCol + diagonalOffset) {
+                
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 ```
