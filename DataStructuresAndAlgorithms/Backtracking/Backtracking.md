@@ -133,7 +133,7 @@ public class Main{
             //Determine if placing at the i'th column is a valid mvoe
             boolean valid = isValidMove(row, i, solution);
             if (valid) {
-                //If valid, add the solution which is t
+                //If valid, add the solution... 
                 solution.set(row, i);
                 solveNQueensRec(n, solution, row + 1, results);
             } 
