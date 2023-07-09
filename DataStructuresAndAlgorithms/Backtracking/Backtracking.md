@@ -104,7 +104,13 @@ public class Main{
     */
     public static int solveNQueens(int n) {
         List<List<Integer>> results = new ArrayList<>();
-        // This creates a list of integers size n filled with -1
+        /** 
+         * This creates a list of integers size n filled with -1
+         * This array represents a solution as the queen placement storing 
+         * the row with its index and the column as the value for each queen.
+         * IE: for a solution with n = 4 it would be stored as: 
+         * solution: [2,4,1,3] (See last image above)
+        */ 
         List<Integer> solution = new ArrayList<Integer> (Collections.nCopies(n, -1));
 
         solveNQueensRec(n, solution, 0, results);
@@ -115,14 +121,19 @@ public class Main{
      * TODO: Understand how this works
     */
     public static void solveNQueensRec(int n, List<Integer> solution, int row, List<List<Integer>> results) {
+        // Base Case
+        // if the row passed in is equal to the number of queens we are solving
+        // for then all queens have been placed. 
         if (row == n) {
             results.add(solution);
             return;
         }
-
+        // Iterate through all the columns in the row.
         for (int i = 0; i<n; i++) {
+            //Determine if placing at the i'th column is a valid mvoe
             boolean valid = isValidMove(row, i, solution);
             if (valid) {
+                //If valid, add the solution which is t
                 solution.set(row, i);
                 solveNQueensRec(n, solution, row + 1, results);
             } 
