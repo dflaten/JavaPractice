@@ -98,19 +98,35 @@ placed on the board such that no two queens attack each other.
 ```java
 import java.util.*;
 public class Main{
+     
+    /** 
+     * This function is the main function called to solve the N Queen problem.
+    */
     public static int solveNQueens(int n) {
-        // This list stores the list of possible results.
         List<List<Integer>> results = new ArrayList<>();
-        // This array keeps track of the current solution.
+        // This creates a list of integers size n filled with -1
         List<Integer> solution = new ArrayList<Integer> (Collections.nCopies(n, -1));
+
         solveNQueensRec(n, solution, 0, results);
         return results.size();
     }
+    /** 
+     * Recursive function which solves the N Queen Problem. 
+     * TODO: Understand how this works
+    */
+    public static void solveNQueensRec(int n, List<Integer> solution, int row, List<List<Integer>> results) {
+        if (row == n) {
+            results.add(solution);
+            return;
+        }
 
-    private void solveNQueensByBacktracking(int solutions, int n) {
-       //Create the n x n board
-       int[][] board = new int[n][n];
-       int queensPlaced = 0;
+        for (int i = 0; i<n; i++) {
+            boolean valid = isValidMove(row, i, solution);
+            if (valid) {
+                solution.set(row, i);
+                solveNQueensRec(n, solution, row + 1, results);
+            } 
+        }
     }
     /** 
      * This method determines if a queen can be placed at proposedRow, proposedCol
@@ -122,7 +138,7 @@ public class Main{
         int oldCol = 0;
         int diagonalOffset = 0;
 
-        for (int i = 0; i<proposedRow; i++) {
+        for (int i = 0; i < proposedRow; i++) {
             oldRow = i;
             oldCol = solution.get(i);
             diagonalOffset = proposedRow - oldRow;
@@ -130,7 +146,7 @@ public class Main{
             if (oldCol == proposedCol || 
                 oldCol == proposedCol - diagonalOffset || 
                 oldCol == proposedCol + diagonalOffset) {
-                
+
                 return false;
             }
         }
