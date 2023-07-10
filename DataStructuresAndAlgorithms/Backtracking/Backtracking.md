@@ -118,23 +118,28 @@ public class Main{
     }
     /** 
      * Recursive function which solves the N Queen Problem. 
-     * TODO: Understand how this works
     */
     public static void solveNQueensRec(int n, List<Integer> solution, int row, List<List<Integer>> results) {
-        // Base Case
-        // if the row passed in is equal to the number of queens we are solving
-        // for then all queens have been placed. 
+        /** 
+         * Base Case
+         * If the row passed in is equal to the number of queens we are solving
+         * for then all queens have been placed since we started placing at 0.
+        */
         if (row == n) {
             results.add(solution);
             return;
         }
         // Iterate through all the columns in the row.
-        for (int i = 0; i<n; i++) {
-            //Determine if placing at the i'th column is a valid mvoe
-            boolean valid = isValidMove(row, i, solution);
+        for (int column = 0; column < n; column++) {
+            /**
+            * Determine if placing at the i'th column is a valid move. If there 
+            * is no valid move we do not continue to check further columns.
+            * This check is what helps us do our "backtracking."
+            */ 
+            boolean valid = isValidMove(row, column, solution);
             if (valid) {
-                //If valid, add the solution... 
-                solution.set(row, i);
+                //If valid, add the position of the queen to the solution
+                solution.set(row, column);
                 solveNQueensRec(n, solution, row + 1, results);
             } 
         }
@@ -145,18 +150,32 @@ public class Main{
      * solution may attack the square at proposedRow and proposedCol.
     */
     public static boolean isValidMove(int proposedRow, int proposedCol, List<Integer> solution) {
-        int oldRow = 0;
-        int oldCol = 0;
+        int possibleExistingQueenPlacementRow = 0;
+        int possibleExistingQueenPlacementCol = 0;
         int diagonalOffset = 0;
 
         for (int i = 0; i < proposedRow; i++) {
-            oldRow = i;
-            oldCol = solution.get(i);
-            diagonalOffset = proposedRow - oldRow;
+            possibleExistingQueenPlacementRow = i;
+            //This is the possible queen placement.
+            possibleExistingQueenPlacementCol = solution.get(i);
+            /**
+             * The diagnal offset is created by subtracting the row where a 
+             * queen could be from the proposed row. This would put them in the
+             * same column.  
+             */
+            diagonalOffset = proposedRow - possibleExistingQueenPlacementRow;
 
-            if (oldCol == proposedCol || 
-                oldCol == proposedCol - diagonalOffset || 
-                oldCol == proposedCol + diagonalOffset) {
+            /**
+             * If the possible queen placement column is the same as the 
+             * porposed column that means there is a queen at the same column
+             * as the proposed column and the move is not valid. 
+             *
+             * The diagonal offset is used to check to the right and left of the 
+             * proposed column to see if there is a queen already placed.
+             */
+            if (possibleExistingQueenPlacementCol == proposedCol || 
+                possibleExistingQueenPlacementCol == proposedCol - diagonalOffset || 
+                possibleExistingQueenPlacementCol == proposedCol + diagonalOffset) {
 
                 return false;
             }
