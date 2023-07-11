@@ -185,3 +185,81 @@ public class Main{
     }
 }
 ```
+
+### Word Search
+
+Given an `m x n` 2D grid of characters and a `word` given as a String. We need
+to determine if the word can be constructed from letters of sequentially
+adjacent cells. The cells are considered sequentially adjacent when they are
+neighbors to each other horizontally or vertically. The function should return
+`TRUE` if the word can be constructed and `FALSE` if not. 
+
+#### Constraints
+* `m = board.length`
+* `n = board[i].length` where `0 <= i < m`
+* `1 <= m,n <= 6`
+* `1 <= word.length <= 15`
+* `board` and `word` consist of only lowercase or uppercase English letters.
+* The search is not case-sensitive. 
+
+### Solution
+1. Search through the grid for the first letter of the word. 
+2. If you find the first letter start checking all 4 adjacent letters for the
+   next letter. If you find it move to that letter and start checking the
+   adjacent letters (except for the one you just moved from) for the next
+   letter.
+3. If you do not find the next letter, backtrack to see if you find another
+   character where you can continue searching for the next character. 
+4. If you find all the characters in the word, return `TRUE`.
+5. If you've checked all the potential paths for each of the starting chars in
+   the word and do not find it, return `FALSE`.
+
+```java
+import java.util.*;
+class WordSearch {
+    public static boolean wordSearch(char[][] grid, String word) {
+        // Write your code here
+        return  false;
+    }
+    List<Character> state; // The current state 
+    List<Character> choices;  // Possible next moves based on current state
+    List<List<Character>> res; // All possible valid states
+    
+    // Initialize state and choices
+    Backtracking(List<Character> st, List<Character> ch){
+        state = st;
+        choices = ch;
+    }
+    
+    // To check the current state is a valid solution or not
+    boolean isSolution(List<Character> state){
+        // Replace this placeholder return statement 
+        // with your code to check this solution
+        return false;
+    }
+    
+    // To check the current choice is a valid choice or not
+    boolean isValid(char choice){
+        // Replace this placeholder return statement 
+        // with your code to check the validity of this choice
+        return false;
+    }
+    
+    // We can use this function to evaluate all the states and store the valid states
+    void dfs(List<Character> state){
+        if (isSolution(state)){
+            res.add(state); // e.g. add a copy of the state to final result list
+            return ;
+        }
+       for (char choice : choices){
+            if (isValid(choice)){
+                state.add(choice); // make move
+                dfs(state);
+                int indexOfLastElement = state.size() - 1;
+                state.remove(indexOfLastElement); // backtrack
+                
+            }
+       }
+    }
+}
+```
