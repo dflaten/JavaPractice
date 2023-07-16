@@ -218,31 +218,38 @@ neighbors to each other horizontally or vertically. The function should return
 import java.util.*;
 class WordSearch {
     public static boolean wordSearch(char[][] grid, String word) {
-        // Write your code here
+        //TODO: Need to put all the pieces together.
+        List<Character> state = new ArrayList(); // The current state 
+        List<Character> choices;  // Possible next moves based on current state
+        List<List<Character>> res; // All possible valid states 
         return  false;
     }
-    List<Character> state; // The current state 
-    List<Character> choices;  // Possible next moves based on current state
-    List<List<Character>> res; // All possible valid states
+
     
     // Initialize state and choices
-    Backtracking(List<Character> st, List<Character> ch){
-        state = st;
-        choices = ch;
+    Backtracking(List<Character> state, List<Character> choices){
+        state = state;
+        choices = choices;
     }
     
     // To check the current state is a valid solution or not
     boolean isSolution(List<Character> state){
-        // Replace this placeholder return statement 
-        // with your code to check this solution
-        return false;
+        if (word.equals(state.toString())) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     // To check the current choice is a valid choice or not
     boolean isValid(char choice){
-        // Replace this placeholder return statement 
-        // with your code to check the validity of this choice
-        return false;
+        // If choice = word.charAt(i) where i is the current character of the word
+        // we are building.
+        if (choice.equals(word.charAt(state.size()))) {
+           return true; 
+        } else {
+           return false;
+        }
     }
     
     // We can use this function to evaluate all the states and store the valid states
