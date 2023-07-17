@@ -217,12 +217,35 @@ neighbors to each other horizontally or vertically. The function should return
 ```java
 import java.util.*;
 class WordSearch {
-    public static boolean wordSearch(char[][] grid, String word) {
-        //TODO: Need to put all the pieces together.
-        List<Character> state = new ArrayList(); // The current state 
-        List<Character> choices;  // Possible next moves based on current state
-        List<List<Character>> res; // All possible valid states 
-        return  false;
+    // Function to search a specific word in the grid
+    // char [][] is a double array meaning two arrays in one structure
+    public static boolean wordSearch(char[][] grid, String word){
+        int rowLength = grid.length;
+        int  columnLength = grid[0].length;
+        for(int row = 0; row < rowLength; row++){
+            for(int col = 0; col < columnlength; col++){
+                if(depthFirstSearch(row, col, word, grid)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    } 
+
+    public boolean depthFirstSearch(int row, into column, String word, char[][] grid) {
+       //The Empty word case
+       if (word.length() == 0) {
+         return true;
+       } 
+
+       // If row or column are out of bounds of grid or if the character pointed
+       // at is not the character af the beginnning of the word return false.
+       if (row < 0 || row == grid.length || col < 0 || col == grid[0].length || grid[row][col] != word.charAt(0)) {
+          return false;
+       }
+       //TODO: Pick up here.
+
+
     }
 
     
