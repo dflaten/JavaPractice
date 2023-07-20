@@ -283,3 +283,63 @@ public static int kSmallestNumber(List<List<Integer>> lists, int k) {
     return smallestNumber;
 }
 ```
+
+### Merge 2 Linked Lists
+Given two sorted Linked Lists merge them into one large sorted Linked List.
+This is a simplified version of the Merge K LinkedLists problem.
+
+#### Constraints
+* The number of nodes in boths lists is in the range `[0,50]`. 
+* `-100 <= Node.val <= 100`
+* Both lists are sorted smallest to largest.
+
+#### Example
+  **Input**: `list1 = [1,2,4], list2 = [1,3,4]`
+
+  **Output**: `[1,1,2,3,4,4]`
+
+#### Solution
+This problem was solved by using a `resultNode` which would always point to the
+new next. Then we just iterated through both lists and took the smallest item
+from each list to add it to the result until at least one of the lists are
+empty (adding the other list to the tail).
+
+```java
+ ListNode mergeTwoLists(ListNode listA, ListNode listB) {
+
+    // Create result Node which will always point at the head of the new list
+    // with next.
+    ListNode resultNode = new ListNode();
+
+    ListNode tail = resultNode;
+
+    while (true) {
+      // Check if listA is empty or traversed
+      if (listA == null) {
+        tail.next = listB;
+        break;
+      }
+      // Check if listB is empty or traversed
+      if (listB == null) {
+        tail.next = listA;
+        break;
+      }
+
+       
+      // Check which listdata is lesser, it will be appended to
+      // tail.next
+      if (listA.val <= listB.val) {
+        tail.next = listA;
+        listA = listA.next;
+      } else {
+        tail.next = listB;
+        listB = listB.next;
+      }
+
+      //update tail
+      tail = tail.next;
+    }
+    //returning the Result List
+    return resultNode.next;
+  }
+```
