@@ -27,7 +27,20 @@ To solve a problem with Dynamic Program you must have:
    the same problems or a Set of the same problems solved over and over again
    so you can take advantage of this and cache the solution to the problem. 
 
-## Fibonacci Example
+There are two different approaches in dynamic programming you can use to solve
+a problem, the Top Down Approach with Memoization, and the Bottom-up approach
+with tabulation.
+
+## Top Down Approach with memoization
+Here we store all the results of the solved subproblems in an array or hash
+map. That way whenever we encounter an overlapping subproblem during recursion
+we can just refer to it instead of re-doing it.
+
+
+### Fibonacci Example
+
+Will use the Fibonacci Example to show both. Will start with the basic
+recursive implementation which is very very slow.
 
 Code for Recursive Implementation:
 
@@ -54,7 +67,7 @@ When you write this problem out in a graph of recursive calls for a number like
 If you cache these solutions instead of calculating them you can drastically
 reduce the runtime of the function. 
 
-### Top Down Dynamic Programming Solution
+#### Top Down Dynamic Programming Solution
 
 ```java
 public int fibDynamidProgramming(int n) {
@@ -73,6 +86,13 @@ public int fibDynamicProgramming(int n, int[] array) {
     }
 }
 ```
+
+## Bottom-up Approach with tabulation
+This approach allows us to use recursion in a different way. We use an
+n-dimensional array to store the results of the sub problems. On some problems
+this may require computing using two-dimensional arrays or one dimentional
+arrays with a twist. It can be tricky and isn't always a good idea for dynamic
+programming problems.
 
 ### Bottom Up Dynamic Programming Solution
 
