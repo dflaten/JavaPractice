@@ -66,6 +66,7 @@ parenthesis inside it. So here is my solution to that problem:
  * we check to see if there is already a ( on the 
  * stack, if there is we return false. At the end we make sure all stacks are 
  * empty then return true. 
+*/
 ```
 
 *This solution is also incorrect because I didn't understand that the correct
