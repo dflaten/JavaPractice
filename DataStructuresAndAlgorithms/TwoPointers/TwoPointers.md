@@ -196,3 +196,57 @@ static public boolean isPalindrome(String s, int left, int right) {
     return true;
 }
 ```
+
+## Another Examnple: Palindrome III
+Determine if a String is a valid palindrome after converting all uppercase
+characters to lower case and removing non alphanumeric characeters it reads the
+same backwards and forwards. 
+
+Solution: 
+```java
+class Solution {
+    /** 
+     * 1. Create two pointers, one pointed at the end of the string and one at the
+     * end of the String. 
+     * 2. First check the Character each string is pointing at and make sure it is an
+     * Alpha numeric character. If it is not move the pointer forward(or backward).
+     * And check the next. 
+     * 3. Compare the characters, if they are equal then move the pointers one place 
+     * and repeat.
+     * 4. Do this until you have both pointers pointing at an alphanumeric character 
+     * or both pointers are pointing at the same character.
+     * 5. If they are, return true. If one pointer ever overtakes the other return   
+     * false.
+     */ 
+    public boolean isPalindrome(String s) {
+      int front = 0;
+      int back = s.length()-1;
+
+      while (front < back) {
+          
+          while (isNotAlphanumeric(s.charAt(front)) && front < back) {
+              front++;
+          }
+          while (isNotAlphanumeric(s.charAt(back)) && front < back) {
+              back--;
+          }
+          if (front < back) {
+              if ((areNotSameCharacter(s.charAt(front) ,s.charAt(back)))) {
+                  return false;
+              } else {
+                front++;
+                back--;
+              }
+          }
+      }  
+        return true;
+    }
+
+    private boolean isNotAlphanumeric(char character) {
+        return !Character.isLetterOrDigit(character );
+    }
+    private boolean areNotSameCharacter(char first, char second) {
+        return !(Character.toLowerCase(first) == Character.toLowerCase(second));
+    }
+
+```
