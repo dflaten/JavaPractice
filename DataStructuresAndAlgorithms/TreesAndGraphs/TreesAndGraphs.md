@@ -118,6 +118,55 @@ the least item. You continue to do this until the tree is in the state where
 every parent is smaller than both of its children. This is also a `O(log n)`
 operation. 
 
+
+#### Inverting Binary Tree
+Given the `root` of a binary tree, invert the tree, and return its root. 
+
+![Invert Binary Tree](InvertBinaryTree.png "Invert Binary Tree")
+
+This problem has a pretty simple soltution using recurssion. Simply create a
+function which reverses the left and right of each node until you get to a null
+node. 
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+ /** 
+  * 1. Use recursion to do this. Create a function that given a node switches the left and the right. 
+  * 2. Base case is if the node pased in is null return. 
+  */
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+
+        invertTreeRec(root);
+        return root;
+        
+    }
+    public void invertTreeRec(TreeNode node) {
+        if(node == null) {
+            return;
+        } 
+        TreeNode temp = node.left;
+        node.left = node.right;
+        node.right = temp;
+        invertTreeRec(node.left);
+        invertTreeRec(node.right);
+    }
+```
+
 ## Tries
 Tries are a type of tree that are commonly used to store words. Each node
 stores a character and the end of each word has a character like `*` at it
