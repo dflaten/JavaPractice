@@ -18,6 +18,13 @@ The **pivot** is used to partition the list.
 Most implementations of quicksort are not stable(relative order of equal sort
 items is not preserved). 
 
+#### Performance
+Worst-case: `O(n^2`)`
+Best-case: `O(n log n)`
+Average: `O(n log n)`
+
+#### Implementation
+
 ```java
 /**
  * This is an implementation of quick sort which updates a list of integers in 
@@ -77,6 +84,55 @@ private static int partition( int[] array, int left, int right) {
 }
 ```
 
+### Selection Sort
+Selection sort is an **in-place** sorting algorithm. It is simple but generally
+less efficient than many other sorting algorithms. However it can be useful
+when your auxiliary memory is limited. Auxiliary storage is memory not directly
+accessible by the CPU, in modern computers this would be hard drive disks or
+solid-state drives. 
 
+Selection sort divides the input list into two parts: a sorted sublist of items
+built up from the left to right at the front or left of the list and a sublist
+of the remaining items that are made up by the rest of the list. The
+left(sorted) sublist starts empty with the right (unsorted) list full of all
+the elements. You loop through the unsorted list searching for the largest(or
+smallest) item in the list to place it in the sorted part of the list. Then
+find the next largest(or smallest) item in the list and place it next in the
+list. This continues until you are at the end of the list.
 
+#### Performance
+Wosrt-case: `O(n^2)` comparisons, `O(n)` swaps
+Best-case: `O(n^2)` comparisons, `O(1)` swap
+Average: `O(n^2)` comparisons, `O(n)` swaps
+Worse-case space complexity: `O(1)` auxiliary
 
+#### Implementation
+```java
+/** 
+ * Selection Sort: 
+ * 1. Iterate through entire list.
+ * 2. For the first iteration find the smallest item and put it at the start of the list.
+ * 3. For the remaining iterations, find the next smallest item and place it in the next position of list.
+ * 4. Once you get to the end of the list return the now sorted array.
+*/
+public static int[] selectionSort(int[] array) {
+    // Iterate through all the items in the list. We skip the last item in the 
+    // list (array.length - 1) because that one will always be in the right place
+    // since by the time we get to it all the other items are sorted.
+    for (int i = 0; i < array.length - 1; i ++) {
+        // Choose the first element in our sublist as the lowest, will update
+        // as new lowest is found
+        int smallest = i;
+        // Iterate through the remaining items in the list to find the next lowest.
+        for (int j = i + 1; j < array.length; j++) {
+            if(array[j] < array[smallest]) {
+                smallest = j;
+            }
+        }
+        int temp = array[i];
+        array[i] = array[smallest];
+        array[smallest] = temp;
+    }
+    return array;
+}
+```
