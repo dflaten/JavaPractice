@@ -101,7 +101,7 @@ find the next largest(or smallest) item in the list and place it next in the
 list. This continues until you are at the end of the list.
 
 #### Performance
-Wosrt-case: `O(n^2)` comparisons, `O(n)` swaps
+Worst-case: `O(n^2)` comparisons, `O(n)` swaps
 Best-case: `O(n^2)` comparisons, `O(1)` swap
 Average: `O(n^2)` comparisons, `O(n)` swaps
 Worse-case space complexity: `O(1)` auxiliary
@@ -136,3 +136,102 @@ public static int[] selectionSort(int[] array) {
     return array;
 }
 ```
+
+### Heap Sort
+This type of sort can be thought of as an improved version of Selection Sort.
+Like Selection Sort Heap Sort divides the list into a sorted and unsorted
+region, and iteratively shrinks the unsorted region by extracting the largest
+or smallest number from it and inserts it into the sorted region. Unlike
+selection sort, heapsort does not waste time with a linear-time scan of the
+unsorted region but instead maintains a heap of the unsorted region to more
+quickly find the largest element in each step.
+
+#### Implementation Approaches
+
+##### Simpler Approach
+
+Implementation of Heap Sort can be fairly simple if you don't mind allocating
+extra space for the Heap. This type of Implementation would look like: 
+
+1.) Create a Max Or Min Heap of the items you are sorting. For example Java's
+`PriorityQueue` would do this with one line of code (example minheap): 
+
+```java
+PriorityQueue<int[]> minHeap = new PriorityQueue<>((a,b)-> a[0] - b[0]);
+```
+
+Then just add all items in the array to the MinHeap and then replace items in
+the array by poping the top item off of the Queue until it is empty. 
+
+This would result in a `O(n log(n)` + `O(n)` performance or `O(n log(n)`.
+
+##### More Efficient Approach
+More efficiently you could create a heap structure in your code implementing
+those operations without needing to create a new Data Structure. 
+
+TODO: Implement this in Java
+
+```
+procedure heapsort(a, count) is
+    input: an unordered array a of length count
+ 
+    (Build the heap in array a so that largest value is at the root)
+    heapify(a, count)
+
+    (The following loop maintains the invariants that a[0:end] is a heap and 
+    every element beyond end is greater than everything before it (so 
+    a[end:count] is in sorted order))
+
+    end ← count - 1
+    while end > 0 do
+        // (a[0] is the root and largest value. The swap moves it in front of 
+        // the sorted elements.)
+        swap(a[end], a[0])
+        (the heap size is reduced by one)
+        end ← end - 1
+        (the swap ruined the heap property, so restore it)
+        siftDown(a, 0, end)
+
+procedure heapify(a, count) is
+    //(start is assigned the index in 'a' of the last parent node)
+    //(the last element in a 0-based array is at index count-1; find the parent of that element)
+    start ← iParent(count-1)
+    
+    while start ≥ 0 do
+        //(sift down the node at index 'start' to the proper place such that all nodes below
+         //the start index are in heap order)
+        siftDown(a, start, count - 1)
+        //(go to the next parent node)
+        start ← start - 1
+    //(after sifting down the root all nodes/elements are in heap order)
+
+// (Repair the heap whose root element is at index 'start', assuming the 
+// heaps rooted at its children are valid)
+
+procedure siftDown(a, start, end) is
+    root ← start
+
+    while iLeftChild(root) ≤ end do    (While the root has at least one child)
+        child ← iLeftChild(root)   (Left child of root)
+        swap ← root                (Keeps track of child to swap with)
+
+        if a[swap] < a[child] then
+            swap ← child
+        (If there is a right child and that child is greater)
+        if child+1 ≤ end and a[swap] < a[child+1] then
+            swap ← child + 1
+        if swap = root then
+            (The root holds the largest element. Since we assume the heaps rooted at the
+             children are valid, this means that we are done.)
+            return
+        else
+            Swap(a[root], a[swap])
+            root ← swap 
+```
+
+#### General Performance
+Worst-case: `O(n log(n))`
+Best-case: `O(n log(n))` with distinct keys or `O(n)` with equal keys.
+Average performance: `O(n log(n))`
+Worst-case space complexity: `O(n)` total `O(1)` auxiliary
+
