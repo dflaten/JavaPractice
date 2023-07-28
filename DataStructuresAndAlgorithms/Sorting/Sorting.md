@@ -5,6 +5,11 @@ different ways. Some of the most popular will be outlined here but if you check
 can see there are more than 100 different ways to sort things in computer
 science. 
 
+| Sorting Algorithm | Average Runtime|
+| ------------- | ------------- |
+| [Quicksort](#Quicksort)| `O(n log n)`|
+| [Selection Sort](#Selection-Sort)| `O(n^2)`|
+
 ## Comparison Sorts
 Comparison sorts cannot perform better than `O(n log n)` on average.
 
