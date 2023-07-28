@@ -2,13 +2,19 @@
 Sorting is a classic computer science problem which can be approached in many
 different ways. Some of the most popular will be outlined here but if you check
 [Wikipedia](https://en.wikipedia.org/wiki/Sorting_algorithm) for example you
-can see there are more than 100 different ways to sort things in computer
-science. 
+can see there are more than 50 different ways to sort things in computer
+science. A sorting algorithm is considered **stable** if the relative order of
+equal sort items is not preserved during the sort (at least in most
+implementations). 
 
-| Sorting Algorithm | Average Runtime|
-| ------------- | ------------- |
-| [Quicksort](#Quicksort)| `O(n log n)`|
-| [Selection Sort](#Selection-Sort)| `O(n^2)`|
+| Sorting Algorithm | Average Runtime| Worst Runtime| Memory | Stable|
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| [Quicksort](#Quicksort)| `O(n log n)`| `O(n^2)`|`O(log n)` | No |
+| [Selection Sort](#Selection-Sort)| `O(n^2)`| `O(n^2)`| `O(1)`| No |
+| [Heap Sort](#Heap-Sort)| `O(n log n)`| `O(n log n)`|`O(1)`| No |
+| [Merge Sort](#Merge-Sort)| `O(n log n)`| `O(n log n)`|`O(n)`| Yes |
+| [Insertion Sort](#Insertion-Sort)| `O(n^2)`| `O(n^2)`|`O(1)`| Yes |
+| [Bubble Sort](#Bubble-Sort)| `O(n^2)`| `O(n^2)`|`O(1)`| Yes |
 
 ## Comparison Sorts
 Comparison sorts cannot perform better than `O(n log n)` on average.
@@ -20,8 +26,7 @@ in the array are higher or lower than that pivot. The values lower than the
 pivot should be on the left side and the values higher should be on the right.
 The **pivot** is used to partition the list.
 
-Most implementations of quicksort are not stable(relative order of equal sort
-items is not preserved). 
+Most implementations of quicksort are not stable.
 
 #### Performance
 Worst-case: `O(n^2`)`
@@ -86,6 +91,88 @@ private static int partition( int[] array, int left, int right) {
   array[right] = swapTemp;
 
   return leftForPartition + 1;
+}
+```
+### Merge Sort
+Merge sort (also known as mergesort) is an efficient general purpose sorting
+algorithm that competes with quick sort as the "best" sorting algorithm for
+most purposes. Most of the time implementations of merge sort produce a stable
+sort. 
+
+Merge sort is a divide-and-conqueror algorithm that conceptually works like so:
+
+1. Divide the unsorted list into n sublists, each containing one element(a list
+   of one element is considered sorted). 
+
+2. Repeatedly merge sublists to produce new sorted sublists until there is one
+   sublist remaining. This will be the sorted list. 
+
+#### Implementation 
+```java
+/** 
+ * Merge Sort: 
+ * 1. Split the list, sortMe, up into n lists where n is the size of sortMe
+ * 2. Merge the lists together in the correct order
+ * 3. Return the now sorted Array
+*/
+public static void mergeSort(int[] sortMe, int size) {
+   if (size < 2) {
+    return;
+   }
+   int mid = size / 2;
+   int [] leftHalf = new int[mid];
+   int [] rightHalf = new int[size - mid];
+   // Make a copy for the left half
+   for (int i = 0; i < mid; i++) {
+       leftHalf[i] = sortMe[i];
+   }
+   // Make a copy for the right half
+   for (int j = mid; j < size; j++) {
+       rightHalf[j - mid] = sortMe[j];
+   }
+   // Recursively call mergeSort on both halves
+   mergeSort(leftHalf, mid);
+   mergeSort(rightHalf, size - mid);
+
+   // Finally merge all the results.
+   merge(sortMe, leftHalf, rightHalf, mid, size - mid);
+
+}
+
+public static void merge(int[] sortMe, int[] leftHalf, int[] rightHalf, int leftSize, int rightSize) {
+    int leftIterator = 0;
+    int rightIterator = 0;
+    int sortMeIterator = 0;
+
+    // Here we are merging by placing the smallest items first.
+    while (leftIterator < leftSize && rightIterator < rightSize) {
+        if (leftHalf[leftIterator] <= rightHalf[rightIterator]) {
+            sortMe[sortMeIterator] = leftHalf[leftIterator];
+            sortMeIterator++;
+            leftIterator++;
+        } else {
+            sortMe[sortMeIterator] = rightHalf[rightIterator];
+            sortMeIterator++;
+            rightIterator++;
+        }
+    }
+
+    // Place the remaining items in the array for both sides. Though 
+    // in reality only one of these loops will every iterate for each
+    // run of merge since the other item would have triggered the previous
+    // loop to end.
+    while (leftIterator < leftSize) {
+        sortMe[sortMeIterator] = leftHalf[leftIterator];
+        sortMeIterator++;
+        leftIterator++;
+    }
+
+    while (rightIterator < rightSize) {
+        sortMe[sortMeIterator] = rightHalf[rightIterator];
+        sortMeIterator++;
+        rightIterator++;
+    }
+
 }
 ```
 
