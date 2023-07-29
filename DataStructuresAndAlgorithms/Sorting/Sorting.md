@@ -327,3 +327,56 @@ Best-case: `O(n log(n))` with distinct keys or `O(n)` with equal keys.
 Average performance: `O(n log(n))`
 Worst-case space complexity: `O(n)` total `O(1)` auxiliary
 
+### Insertion Sort
+This sorting algorithm builds the final sorted list one item at a time by
+comparisons. It is much less efficient on large lists than quicksort, heapsort
+or mergesort. It is however very simple to implement.
+
+Insertion sort iterates through the list consuming one input element each
+repetition and grows a sorted output list. At each iteration insertion sort
+removes one element fromt he input data, finds the location it belongs and
+inserts it into the sorted list. IT repeats until no elements remain. 
+
+#### Implementation
+```java
+**
+ * Insertion Sort:
+ * Iterate through the list one at at a time. 
+ * Compare the elements, if the current element you are looking at is 
+ * less than the largest item in the sorted list, move the items in the sorted 
+ * list forward and compare it to the next until you have gotten to the start
+ * of the sorted list or the next item in the list is less than it. 
+ * Repeat these steps until you get to the end of the list.
+ * 
+ **/
+public static int[] insertionSort(int[] array) {
+    // Iterate through the array to build the sorted list in place
+    for (int unSortedStart = 1; unSortedStart < array.length; unSortedStart++){
+        // Get our current item
+        int currentItem = array[unSortedStart];
+        // Create a aroted Iterator which we will use to traverse the sorted
+        // part of the list. This will be the end of the sorted list
+        int sortedIterator = unSortedStart - 1;
+        // While the iterator for the sorted part of the list is >= 0 and the
+        // item we are looking at in the list is less than the item we are 
+        // at in the sorted array.
+        while (sortedIterator >= 0 &&  currentItem < array[sortedIterator]) {
+            // Move the sorted item we are lookint at forward one spot in the array
+            array[sortedIterator + 1] = array[sortedIterator];
+            sortedIterator--;
+        }
+        // Move the current item to the last potition we were at in the sorted
+        // Array. this will either be the start of the entire list or the place
+        // in the sorted list where the item on the left is less than the current
+        // item.
+        array[sortedIterator + 1] = currentItem;
+    }
+    return array;
+}
+```
+
+#### Performance
+Worse Case: `O(n^2)`
+Best Case: `O(n)` comparison `O(1)` swaps
+Average: `O(n^2)`
+Worse Case Space: `O(n)` total, `O(1)` auxiliary
