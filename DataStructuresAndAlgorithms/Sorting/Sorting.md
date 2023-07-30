@@ -29,9 +29,9 @@ The **pivot** is used to partition the list.
 Most implementations of quicksort are not stable.
 
 #### Performance
-Worst-case: `O(n^2`)`
-Best-case: `O(n log n)`
-Average: `O(n log n)`
+* Worst-case: `O(n^2`)`
+* Best-case: `O(n log n)`
+* Average: `O(n log n)`
 
 #### Implementation
 
@@ -193,10 +193,10 @@ find the next largest(or smallest) item in the list and place it next in the
 list. This continues until you are at the end of the list.
 
 #### Performance
-Worst-case: `O(n^2)` comparisons, `O(n)` swaps
-Best-case: `O(n^2)` comparisons, `O(1)` swap
-Average: `O(n^2)` comparisons, `O(n)` swaps
-Worse-case space complexity: `O(1)` auxiliary
+* Worst-case: `O(n^2)` comparisons, `O(n)` swaps
+* Best-case: `O(n^2)` comparisons, `O(1)` swap
+* Average: `O(n^2)` comparisons, `O(n)` swaps
+* Worse-case space complexity: `O(1)` auxiliary
 
 #### Implementation
 ```java
@@ -322,10 +322,10 @@ procedure siftDown(a, start, end) is
 ```
 
 #### General Performance
-Worst-case: `O(n log(n))`
-Best-case: `O(n log(n))` with distinct keys or `O(n)` with equal keys.
-Average performance: `O(n log(n))`
-Worst-case space complexity: `O(n)` total `O(1)` auxiliary
+* Worst-case: `O(n log(n))`
+* Best-case: `O(n log(n))` with distinct keys or `O(n)` with equal keys.
+* Average performance: `O(n log(n))`
+* Worst-case space complexity: `O(n)` total `O(1)` auxiliary
 
 ### Insertion Sort
 This sorting algorithm builds the final sorted list one item at a time by
@@ -376,10 +376,10 @@ public static int[] insertionSort(int[] array) {
 ```
 
 #### Performance
-Worse Case: `O(n^2)`
-Best Case: `O(n)` comparison `O(1)` swaps
-Average: `O(n^2)`
-Worse Case Space: `O(n)` total, `O(1)` auxiliary
+* Worse Case: `O(n^2)`
+* Best Case: `O(n)` comparison `O(1)` swaps
+* Average: `O(n^2)`
+* Worse Case Space: `O(n)` total, `O(1)` auxiliary
 
 ### Bubble Sort
 Bubble sort is perhaps one of the easiest sorts to implement and understand but
@@ -423,7 +423,7 @@ private static void swap(int previous, int next, int [] array) {
 ```
 
 #### Performance
-Worst Case: `O(n^2)` comparisons `O(n^2)` swaps
-Best Case: `O(n)` comparisons and `O(1)` swaps
-Average: `O(n^2)` comparisons `O(n^2)` swaps
-Worst Case Space: `O(n)` total `O(1)` auxilliary. 
+* Worst Case: `O(n^2)` comparisons `O(n^2)` swaps
+* Best Case: `O(n)` comparisons and `O(1)` swaps
+* Average: `O(n^2)` comparisons `O(n^2)` swaps
+* Worst Case Space: `O(n)` total `O(1)` auxilliary. 
