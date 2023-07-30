@@ -380,3 +380,50 @@ Worse Case: `O(n^2)`
 Best Case: `O(n)` comparison `O(1)` swaps
 Average: `O(n^2)`
 Worse Case Space: `O(n)` total, `O(1)` auxiliary
+
+### Bubble Sort
+Bubble sort is perhaps one of the easiest sorts to implement and understand but
+also one of the most inefficient types of sorting algorithms. Primarily it is
+used as an educational tool to get started with sorting. However if you are
+able to use parallel processing bubble sort sorts in `O(n)`time, making it
+considerably faster than insertion or selection sort which do not parrallelize
+as effectively. 
+
+Bubble sort works by iterating through the input list element by element
+swapping elements that are larger/smaller than each other. Larger items will
+"bubble up" to the end of the list as it is sorted in this way hence the name. 
+
+#### Implementation
+```java
+/** 
+ * Bubble Sort
+ * Iterate through the list, As you iterate compare the current item with the 
+ * next item. If it is smaller the other item keep it where it is at. If it is
+ * larger than the other item swap the position of the two items. Do this until
+ * you reach the end of the list. 
+ */
+public static int [] bubbleSort(int [] array) {
+    for (int i = 0; i < array.length; i ++) {
+        for (int j = i + 1; j < array.length; j++) {
+            if (array[i] > array[j]) {
+                swap(i, j, array);
+            }
+        }
+    }
+    return array;
+}
+
+private static void swap(int previous, int next, int [] array) {
+    int temp = array[previous];
+    array[previous] = array[next];
+    array[next] = temp;
+}
+   
+}
+```
+
+#### Performance
+Worst Case: `O(n^2)` comparisons `O(n^2)` swaps
+Best Case: `O(n)` comparisons and `O(1)` swaps
+Average: `O(n^2)` comparisons `O(n^2)` swaps
+Worst Case Space: `O(n)` total `O(1)` auxilliary. 
