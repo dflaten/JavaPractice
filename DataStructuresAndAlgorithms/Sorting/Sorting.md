@@ -29,7 +29,7 @@ The **pivot** is used to partition the list.
 Most implementations of quicksort are not stable.
 
 #### Performance
-* Worst-case: `O(n^2`)`
+* Worst-case: `O(n^2)`
 * Best-case: `O(n log n)`
 * Average: `O(n log n)`
 
@@ -259,66 +259,53 @@ This would result in a `O(n log(n)` + `O(n)` performance or `O(n log(n)`.
 
 ##### More Efficient Approach
 More efficiently you could create a heap structure in your code implementing
-those operations without needing to create a new Data Structure. 
+those operations without needing to create a new Array if you are sorting an
+array of integers.  
 
-TODO: Implement this in Java
-
-```
-procedure heapsort(a, count) is
-    input: an unordered array a of length count
- 
-    (Build the heap in array a so that largest value is at the root)
-    heapify(a, count)
-
-    (The following loop maintains the invariants that a[0:end] is a heap and 
-    every element beyond end is greater than everything before it (so 
-    a[end:count] is in sorted order))
-
-    end ← count - 1
-    while end > 0 do
-        // (a[0] is the root and largest value. The swap moves it in front of 
-        // the sorted elements.)
-        swap(a[end], a[0])
-        (the heap size is reduced by one)
-        end ← end - 1
-        (the swap ruined the heap property, so restore it)
-        siftDown(a, 0, end)
-
-procedure heapify(a, count) is
-    //(start is assigned the index in 'a' of the last parent node)
-    //(the last element in a 0-based array is at index count-1; find the parent of that element)
-    start ← iParent(count-1)
-    
-    while start ≥ 0 do
-        //(sift down the node at index 'start' to the proper place such that all nodes below
-         //the start index are in heap order)
-        siftDown(a, start, count - 1)
-        //(go to the next parent node)
-        start ← start - 1
-    //(after sifting down the root all nodes/elements are in heap order)
-
-// (Repair the heap whose root element is at index 'start', assuming the 
-// heaps rooted at its children are valid)
-
-procedure siftDown(a, start, end) is
-    root ← start
-
-    while iLeftChild(root) ≤ end do    (While the root has at least one child)
-        child ← iLeftChild(root)   (Left child of root)
-        swap ← root                (Keeps track of child to swap with)
-
-        if a[swap] < a[child] then
-            swap ← child
-        (If there is a right child and that child is greater)
-        if child+1 ≤ end and a[swap] < a[child+1] then
-            swap ← child + 1
-        if swap = root then
-            (The root holds the largest element. Since we assume the heaps rooted at the
-             children are valid, this means that we are done.)
-            return
-        else
-            Swap(a[root], a[swap])
-            root ← swap 
+```java
+static void heapSort(int a[], int n)  
+{  
+    // Here we are creating a max heap of all the items in the array. The heap
+    // is a complete binary tree with the max element at the head of the tree.
+    // The for loop is starting in the middle of the list heapify the list half
+    // the size of the list. https://en.wikipedia.org/wiki/Binary_heap#Building_a_heap
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(a, n, i);  
+  
+    // One by one extract an element from heap  
+    for (int i = n - 1; i >= 0; i--) {  
+        /* Move current root element to end*/  
+        // swap a[0] with a[i]  
+        int temp = a[0];  
+        a[0] = a[i];  
+        a[i] = temp;  
+        //After extracting the max we must rebalance the tree. 
+        heapify(a, i, 0);  
+    }
+}
+/* function to heapify a subtree. Here 'i' is the   
+index of root node in array a[], and 'n' is the size of heap. */   
+static void heapify(int a[], int n, int i)  
+{  
+    int largest = i; // Initialize largest as root  
+    int left = 2 * i + 1; // left child  
+    int right = 2 * i + 2; // right child  
+    // If left child is larger than root  
+    if (left < n && a[left] > a[largest])  
+        largest = left;  
+    // If right child is larger than root  
+    if (right < n && a[right] > a[largest])  
+        largest = right;  
+    // If root is not largest  
+    if (largest != i) {  
+        // swap a[i] with a[largest]  
+        int temp = a[i];  
+        a[i] = a[largest];  
+        a[largest] = temp;  
+          
+        heapify(a, n, largest);  
+    }  
+}  
 ```
 
 #### General Performance
