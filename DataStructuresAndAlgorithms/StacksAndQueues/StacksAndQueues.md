@@ -137,3 +137,71 @@ class Solution {
         return false;
     }
 ```
+
+### Implement Queue using Stacks
+Implmement a FIFO queue using only two stacks. The implemented queue should
+support all the standard queue functions (`push`, `pop`, `peek`, and `empty`).
+
+Must use only the standard operations of a stack, which means only `push to
+top`, `peak/pop from top`, `size` and `isEmpty` operations are valid. 
+
+#### Solution
+```java
+/** 
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = new MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * boolean param_4 = obj.empty();
+ */
+/**
+ * Function to implement Queue Using Stacks
+ * Here I chose to make the push operation a bit more time intensive but if we
+ * wanted to make the pop operation more time intensive we could store the */  
+class MyQueue {
+    private Stack<Integer> dataStack;
+    private Stack<Integer> tempStack; 
+
+    public MyQueue() {
+        dataStack = new Stack<Integer>();
+        tempStack = new Stack<Integer>();
+        
+    }
+    
+    public void push(int x) {
+       // Since we want a FIFO Queue we must push all items in the current
+       // stack to our placeholder stack.
+       while (!dataStack.isEmpty() ) {
+           tempStack.push(dataStack.pop());
+       }
+       dataStack.push(x);
+       while(!tempStack.isEmpty()) {
+           dataStack.push(tempStack.pop());
+       }
+    }
+    // Alternatively we could do the time intensive process of re-organizing
+    // the stack during the pop operation if needed.
+    public int pop() {
+        if (!dataStack.isEmpty()) {
+            return dataStack.pop();
+        }
+        return -1;
+    }
+    
+    public int peek() {
+        if (!dataStack.isEmpty()){
+            return dataStack.peek();
+        }
+        return -1;
+        
+    }
+    
+    public boolean empty() {
+       return dataStack.isEmpty(); 
+    };
+}
+```
+#### Performance
+Overall we will have a amortized `O(1)` amoritized time complexity for the
+functions except for the `push()` operation.
