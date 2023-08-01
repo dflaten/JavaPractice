@@ -240,7 +240,7 @@ public class FBVersion{
       int apiCounter = 0;
       // We are doing a binary search here
       while (first < last) {
-      int mid = (first + last) / 2;
+      int mid = first + (first + last) / 2;
       
       apiCounter++;
       // If the mid point is bad, drop the rest because we are looking for just
@@ -261,4 +261,37 @@ public class FBVersion{
       return new int[]{first, apiCounter};
    }
 }
+```
+
+Here is an example for the case where you just want to know what the first bad
+version is. 
+
+```java
+
+    public int firstBadVersion(int n) {
+        int first = 1;
+        int last = n;
+
+        while (first < last) {
+            // Calculating mid was a bit tricky for me to understand at first.
+            // First let us understand the (last - first) / 2 part:
+            // Java always truncates the result of Integer division so here if 
+            // you have first = 1 and last = 20 you will get:
+            // 1 + (19 / 2) = 1 + 9
+            // Can also think of it as how many times does 2 fit into 19.
+
+            // Now for the addition of first to this number. We are looking for the
+            // first bad version number. So our while loop is iterating while first is
+            // less than last. This means when we will break out of the loop when the 
+            // first = the first bad version. (walk through a small example and you
+            // will see)
+            int mid = first + (last - first) / 2;
+            if (isBadVersion(mid)) {
+                last = mid;
+            } else {
+                first = mid + 1;
+            }
+        }
+        return first;
+    }
 ```
