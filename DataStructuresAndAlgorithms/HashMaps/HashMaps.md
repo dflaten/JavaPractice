@@ -60,3 +60,51 @@ Now the smarter solution:
     }
 ```
 
+### Ransome Note
+
+#### Problem
+Given two strings `ransomeNote` and `magazine`, return true if `ransomeNote`
+can be constructed using the letters in `magazine`, else return false. 
+
+Each letter in `magazine` can be used only once. 
+
+#### Solution
+
+```java
+  /**
+     * 1. Pull all the letters in magazine in a Hashmap<Char, Integer>, where the 
+     *.   Integer is the number of that letters in magazine.
+     * 2. Attempt to construct ransomeNote using the HashMap decreasing the integer
+     *    as the characters are used. If we do not find a letter in the map return 
+     *    false. Else if we construct the ransomeNote return true.
+     */
+
+    public boolean canConstruct(String ransomNote, String magazine) {
+       HashMap<Character, Integer> magazineLetters = new HashMap();
+       for (int i = 0; i < magazine.length(); i++) {
+           Character currentChar = magazine.charAt(i);
+           Integer charCount = magazineLetters.get(currentChar);
+           if (null == charCount) {
+               magazineLetters.put(currentChar, 1);
+           } else {
+               magazineLetters.put(currentChar, magazineLetters.get(currentChar) + 1);
+           }
+       }
+
+       for (int i = 0; i < ransomNote.length(); i++) {
+           Character currentChar = ransomNote.charAt(i); 
+           Integer currentCharRemaining = magazineLetters.get(currentChar);
+           if (null != currentCharRemaining) {
+               if (1 == currentCharRemaining) {
+                   magazineLetters.remove(currentChar);
+               } else {
+                   currentCharRemaining--;
+                   magazineLetters.put(currentChar, currentCharRemaining);
+               }
+           } else {
+               return false;
+           }
+       }
+       return true;
+    }
+```
