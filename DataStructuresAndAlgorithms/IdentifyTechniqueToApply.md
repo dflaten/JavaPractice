@@ -53,7 +53,7 @@ matrix? This could be data in an array for example.
    paths later shown to be impossible and rollback modifications to shared 
    state made during the sarch. 
 
-   1. **Now should you implement DFS using recursion or iteration?** Recursion
+   * **Now should you implement DFS using recursion or iteration?** Recursion
       has limits as far as the depth is concerned depening on the programming
       language but recursion provides a natual mechanism for backtracking since
       you can just `return` to undo the last step. However iteration will
