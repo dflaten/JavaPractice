@@ -15,9 +15,12 @@ public int factorial(int n) {
 }
 ```
 
+You can solve almost any problem iteratively that is solved recursively but
+there are pros/cons of doing so. 
+
 # Dynamic Programming
 Dynamic Programming is breaking a problem down into simpler sub-problems in a
-recursive way. 
+recursive way. You can also do this iteravely with a Stack. 
 
 To solve a problem with Dynamic Program you must have: 
 1. A optimal substrucuture - That is the sub-problems you broke the problem up
