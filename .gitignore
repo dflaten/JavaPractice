@@ -7,3 +7,6 @@ Desktop.ini
 *.class
 #Vim files in progress
 *.swp
+#Intellij
+*.iml
+*.idea
