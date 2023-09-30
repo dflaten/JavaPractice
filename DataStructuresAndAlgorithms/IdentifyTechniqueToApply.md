@@ -107,7 +107,7 @@ matrix? This could be data in an array for example.
       Search](ModifiedBinarySearch/ModifiedBinarySearch.md) to solve your
       problem.
 
-### Linear or Sequential Data Sructure
+### Linear or Sequential Data Structure
 
 Does the problem have to do with an array, linked list, string, or search
 space?
@@ -117,9 +117,9 @@ space?
    * To solve this optimally, `O(n)` we need to be able to compare elements in
      the sequence without using nested loops. We have two options:
      1. Ensure the sequence is sorted and then apply the [Two
-        Pointers](FastAndSlowPointers/FastAndSlowPointers.md).  
-        technique. This is particularly useful when a deterministic order
-        matters or when looking for unique paris/triplets.
+        Pointers](FastAndSlowPointers/FastAndSlowPointers.md) technique. This 
+        is particularly useful when a deterministic order matters or when 
+        looking for unique paris/triplets.
 
      2. Use a [HashMap](HashMaps/HashMaps.md) - This allows us to store seen 
         elements and then look up the completment of the current element in 
