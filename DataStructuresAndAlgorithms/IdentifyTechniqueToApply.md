@@ -7,13 +7,13 @@ site](https://sebinsua.com/algorithmic-bathwater) was used as the base.
 ## Technique Decision Tree 
 First we must identify what type of general problem are we trying to solve. 
 
-1. [Optimization Problem ?](#optimization-problems) Are we trying to find the 
+1. [Optimization Problem?](#optimization-problems) Are we trying to find the 
    best possible solution from a list of possible solutions?
 2. [Create/Recover a partial ordering of
    elements?](#create/recover-a-partial-ordering-of-elements)
-3. [Interconnected Points?](#interconnected-points)
+3. [Does the problem involve Interconnected Points?](#interconnected-points)
 4. [Efficient Lookups of data?](#efficient-lookups-of-data)
-5. Linear/sequential data structure?
+5. [Is the problem related to a linear or sequential data structure?](#linear-or-sequential-data-structure)
 
 ### Optimization Problems
 
@@ -39,7 +39,7 @@ pre-requisite requirements are met.
 ### Interconnected Points
 Do you have data points that are interconnected in some way, needing to
 generate and test paths or sequences, or wishing to traverse elements in a
-matrix? This could be data in an array for example. 
+matrix? This could be data in an array for example.
 
 1. **Do you need to find a combination or permutation of elements that match a
    constraint?** If you have a particular target or constraint that needs to be
@@ -106,3 +106,61 @@ matrix? This could be data in an array for example.
       use a [Modified Binary
       Search](ModifiedBinarySearch/ModifiedBinarySearch.md) to solve your
       problem.
+
+### Linear or Sequential Data Sructure
+
+Does the problem have to do with an array, linked list, string, or search
+space?
+
+1. **Are we being asked to find pairs, triplets or sub-arrays that match a
+   constraint?**
+   * To solve this optimally, `O(n)` we need to be able to compare elements in
+     the sequence without using nested loops. We have two options:
+     1. Ensure the sequence is sorted and then apply the [Two
+        Pointers](FastAndSlowPointers/FastAndSlowPointers.md).  
+        technique. This is particularly useful when a deterministic order
+        matters or when looking for unique paris/triplets.
+
+     2. Use a [HashMap](HashMaps/HashMaps.md) - This allows us to store seen 
+        elements and then look up the completment of the current element in 
+        the hash table. This is a better option when the list is unsorted and 
+        sorting it would break problem constraints or when we need to remember 
+        past elements for comparison but don't care about their order.
+
+2. **Are we being asked to find the longest/shortest substring or subsequence
+   that matches a constraint or to compute aggregate statistics for a
+   particular length subsequence?**
+   * To solve optimally, we want to be able to re-use computation from previous
+     windows so that we can update our answer for each window in `O(1)`
+     (constant) time and the whole sequence can be completed in `O(n)` 
+     (linear) time. To do this we can use the [Sliding
+     Window](SlidingWindow/SlidingWindow.md) technique.
+
+3. **Do we need to find a target value or min/max value in the sequence?**
+    * If the sequence is unsorted, there is no way to do better than a linear
+      scan of the sequence `O(n)`. 
+    * If the sequence is sorted we can use [Binary
+      Search](ModifiedBinarySearch/ModifiedBinarySearch.md). 
+
+4. **Do we need to detect cycles in a linked list or find the middle element?**
+   * Use [Fast and Slow Pointer](FastAndSlowPointers/FastAndSlowPointers.md) to
+     solve the problem.
+
+5. **Do we need to find duplicates in a sequence?**
+   * If sorted then duplicates are next to each other and we can find them by
+     comparing adjacent items in the list.
+   * If the sequence is unsorted we can use a [HashMap](HashMaps/HashMaps.md)
+     or **Set**.
+6. **Does the problem require frequent and ordered access to recently processed
+   elements?**
+   * If you need access to elements in a dynamic order, you canot just use a
+     `for-loop` to iterate through some elements and likely will need to use a
+     [Stack or Queue](StacksAndQueues/StacksAndQueues.md).
+   * If we need access to the most recently processed elements, use a
+     **Stack**. 
+   * If we need access to the least recently processed element (oldest) we can 
+   use a **Queue**.
+
+7. Are we being asked to merge sorted Lists?
+   * Use a [Min-Heap](TwoHeaps/TwoHeaps.md). 
+
