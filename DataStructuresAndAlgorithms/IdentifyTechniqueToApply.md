@@ -64,7 +64,7 @@ matrix? This could be data in an array for example.
       tracing of state.
 
 2. **Do you need to fill or quantify contiguous regions in a matrix?**
-   You can do using a [Flood-Fill](Backtracking/FloodFill.md) algorithm. You
+   You can do using a [Flood-Fill](Matrices/Matrices.md) algorithm. You
    can do this using Breadth-First Search(BFS) or Depth-First Search (DFS). You
    can avoid accidentally revisting cells by placing them into a *Set* or
    *HasmMap* as you visity them, or to save memory mutate the matrix in place
@@ -89,7 +89,7 @@ matrix? This could be data in an array for example.
 ### Efficient Lookups of Data
 1. **Do we need to quickly store or lookup strings or provide auto-complete
    functionality?**
-   Use a [Trie](Trie/Trie.md) to store the strings in a way that allows for
+   Use a [Trie](TreesAndGraphs/TreesAndGraphs.md#tries) to store the strings in a way that allows for
    fast `O(k)` retrieval and updates of strings that share a common prefix.
 
 2. **Are we being asked to query the smallest/largest/median values?**
