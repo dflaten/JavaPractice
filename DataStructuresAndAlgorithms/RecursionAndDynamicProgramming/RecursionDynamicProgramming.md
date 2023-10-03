@@ -188,9 +188,7 @@ public class GenerateSubsequences {
  */
 public class PartitionEqualSubsetSum {
     static Boolean[][] mem;
-    static ArrayList<int []> results;
-    public static Boolean [][] canPartition(int[] numberArray) {
-        results = new ArrayList<>();
+    public static boolean canPartition(int[] numberArray) {
         int length = numberArray.length;
         int sum = 0;
         //Determine sum of all numbers
@@ -199,7 +197,7 @@ public class PartitionEqualSubsetSum {
         }
         // If the sum is odd we can't partition the list
         if (sum % 2 != 0) {
-            return mem;
+            return false;
         }
 
         // We are dividing the sum in 2 because we just need to find one 
@@ -214,8 +212,7 @@ public class PartitionEqualSubsetSum {
         // sum will always be at the most its current value.
         mem = new Boolean[length][sum + 1];
 
-        boolean result = determineSubSetSum(numberArray, 0, sum);
-        return mem;
+        return determineSubSetSum(numberArray, 0, sum);
     }
 
     private static boolean determineSubSetSum(int[] numberArray, int position, int sum) {
