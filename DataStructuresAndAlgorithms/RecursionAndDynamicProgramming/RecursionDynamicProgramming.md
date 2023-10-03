@@ -119,3 +119,49 @@ public int fibDynamidProgrammingBottomUp(int n) {
 
 Depending on the problem it may be easier to think of this in one direction or
 the other.
+
+## Generating Subsequences with Recursion
+This is a common pattern that is often used modified to generate subsequences.
+
+**Problem:** Given an array of Integers, generate all possible *Subsequences*(A
+sequence that can be dirived from a given sequence by deleting some or no
+elements without changing the order of the remaining elements). 
+
+**Example:** 
+Given: `[3,1,2]` as the input. 
+
+Output: `{[], [3,1,2], [3,1], [3,2], [3], [1,2], [1], [2]}`
+
+### Implementation in Java
+```java
+public class GenerateSubsequences {
+
+    static ArrayList<int[]> results = new ArrayList<>();
+    /**
+     * Given an array of integers return a list of all the possible
+       subsequences which could be made from it.
+     */
+    public static ArrayList<int []> generateSubSequences(int [] numberArray) {
+        ArrayList<Integer> buildingArray = new ArrayList<>();
+        recGenerateSubSequences(0, numberArray, buildingArray);
+        return results;
+    }
+    private static void recGenerateSubSequences(int index, int [] numberArray, ArrayList<Integer> subSequence) {
+       // Base Case: if we get to the end of the list we are done generating a new subsequence
+        System.out.println("Current index: " + index);
+        System.out.println("Current subsequence: " + subSequence);
+       if (index >=  numberArray.length) {
+           results.add(subSequence.stream().mapToInt(i -> i).toArray());
+           return;
+       }
+       subSequence.add(numberArray[index]);
+       // Generate subsequences while "taking" the current index
+       recGenerateSubSequences(index + 1, numberArray, subSequence);
+       // We remove the current index because we are not taking it.
+       subSequence.remove(subSequence.size() - 1);
+       // Here we are "not taking" the item at the current index
+       recGenerateSubSequences(index + 1, numberArray, subSequence);
+
+    }
+}
+```
