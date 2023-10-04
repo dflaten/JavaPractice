@@ -144,3 +144,73 @@ class Solution {
     }
 }
 ```
+
+### Remove Duplicates
+
+#### Solution 1
+Here is my crazy complicated version (which does not work). 
+
+```java
+class Solution {
+    public int removeDuplicates(int[] nums) {
+
+      // Pointer 1 - End of Evaluated List
+      // Pointer 2 - End Of Duplicates
+      // Pointer 3 - Current item.
+      
+      int current = 0;
+      int endOfDuplicates = 0;
+      int endOfEvaluatedList = 0;
+
+      while(endOfDuplicates < nums.length - 1 && current < nums.length - 1) {
+          if (nums[current] == nums[current + 1]) {
+              current++;
+              endOfDuplicates = current + 1;
+              //Move the endOfDuplicates to the end
+              while (nums[endOfDuplicates] == nums[current]) {
+                 endOfDuplicates++; 
+              }
+              //Move the current item to the one that needs to be replaced
+              current++;
+              //Replace it
+              nums[current] = nums[endOfDuplicates];
+              //Move the end of the List to the current item.
+              endOfEvaluatedList = current;
+              //Move the current Item to the item next in the list after the duplicate
+              current = endOfDuplicates + 1;
+          } else {
+              current++;
+              endOfEvaluatedList++;
+          }
+      }
+      // Return number of items in the list.
+      return endOfEvaluatedList + 1;
+
+
+    }
+}
+```
+
+#### Solution 2
+Solution that actually works. 
+
+```java
+   /** 
+     * 0. Declare a pointer, endOfDedupe as 1 (second item in array)
+     * 1. Iterate through the list starting at the second element using index i. 
+     * 2. Compare item at i with the previous, if they are not the same put the item at i
+     * at the endOfDedupe position and increase endOfDedupe. 
+     * 3. Else just keep iterating through the array until you reach the end.
+     * 4. Return endOfDedupe.
+     */
+    public int removeDuplicates(int[] nums) {
+        int endOfDedupe = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] != nums[i - 1]) {
+                nums[endOfDedupe] = nums[i];
+                endOfDedupe++;
+            }
+        }
+        return endOfDedupe;
+    }
+```
