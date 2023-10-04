@@ -31,3 +31,95 @@ the smallest and calculate the profit using the current number in the array.
        return profit;
     }
 ```
+
+### Merge 2 Sorted Lists
+
+#### Solution
+
+```java
+
+    /* Problem: Given two sorted arrays, the first of which has enough space in it 
+     * to fit the items in the second. Merge the two arrays while keeping all of the
+     * elements sorted.
+     *
+     */
+class Solution {
+
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        // Iterate through nums1 and nums2 at the same time using pointers,
+        // comparing each item.
+
+        // If the item in num1 is less than the item in num2 we move the pointer 
+        // for num1 forward (until we get to the end of the list)
+        // If the item in num2 is less than the item in num1 then we take the item
+        // in num one and place it in a min stack, then replace the value in num1
+        // with the value in num2 and move the num1 and num2 pointers forward.
+        // From now on we compare the topitem in the stack(if its not empty) with 
+        // the item in num2, and when replacing put the current item in num 1 in 
+        // the stack before replacing the value with whatever is smaller.
+        // If we get to the end of nums2, place the rest of the values in the 
+        // stack in num1.
+
+        PriorityQueue<Integer> minHeap = new PriorityQueue();
+
+        int num1Pointer = 0;
+        int num2Pointer = 0;
+
+        while(num1Pointer < m && num2Pointer < n) {
+            if(minHeap.isEmpty()) {
+                if (nums1[num1Pointer] < nums2[num2Pointer]) {
+                    num1Pointer++;
+                } else {
+                    minHeap.add(nums1[num1Pointer]);
+                    nums1[num1Pointer] = nums2[num2Pointer];
+                    num1Pointer++;
+                    num2Pointer++;
+                }
+            } else {
+                if (minHeap.peek() < nums2[num2Pointer]) {
+                    if (num1Pointer < m) {
+                        minHeap.add(nums1[num1Pointer]);
+                    }
+                    nums1[num1Pointer] = minHeap.poll(); 
+                    num1Pointer++;
+                } else {
+                    minHeap.add(nums1[num1Pointer]);
+                    nums1[num1Pointer] = nums2[num2Pointer];
+                    num1Pointer++;
+                    num2Pointer++;
+                }
+            } 
+        }
+        // If we got to the end of num2Pointer then we are done. However
+        // if we have items left in the heap or list 2 we should add them 
+        // to the rest of the list. 
+        while (num2Pointer < n) {
+              if (!minHeap.isEmpty()) {
+                if (minHeap.peek() < nums2[num2Pointer]) {
+                    nums1[num1Pointer] = minHeap.poll(); 
+                    num1Pointer++;
+                } else {
+                    nums1[num1Pointer] = nums2[num2Pointer];
+                    num1Pointer++;
+                    num2Pointer++;
+                }
+              } else {
+                    nums1[num1Pointer] = nums2[num2Pointer];
+                    num1Pointer++;
+                    num2Pointer++;
+              }
+        }            
+        // Empty the rest of the heap if we need to.
+        while (!minHeap.isEmpty()) {
+            if (num1Pointer < m) {
+               minHeap.add(nums1[num1Pointer]);
+               nums1[num1Pointer] = minHeap.poll();
+               num1Pointer++;
+            } else {
+               nums1[num1Pointer] = minHeap.poll(); 
+               num1Pointer++;
+            }
+        }
+    }
+}
+```
