@@ -123,3 +123,24 @@ class Solution {
     }
 }
 ```
+
+#### Much Simpler Solution
+We can take advantage of the fact that the 0s at the end of the list can be
+ovverrident and sort creating the merged list from the end of the first list.
+```java
+class Solution {
+    public void merge(int [] nums1, int m, int[] nums2, int n) {
+        int nums1Index = m - 1;
+        int nums2Index = n - 1;
+        int sortedIndex = m + n - 1;
+
+        while (nums2Index >= 0) {
+            if (nums1Index >= 0 && nums1[nums1Index] > nums2[nums2Index]) {
+                nums[sortedIndex--] = nums1[nums1Index--];    
+            } else {
+                nums1[sortedIndex--] = nums2[nums2Index--];
+            }
+        }
+    }
+}
+```
