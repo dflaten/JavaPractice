@@ -113,6 +113,44 @@ while (fast != 1 && slow != fast) {
 return fast == 1;
 ```
 
+Another alternative I could use the Java Strings/Chart at functionality to
+convert the numbers and calculate the SumOfSquares. However this method is less
+fast and takes a bit more memory because it is using those packing/unpacking
+methods. 
+
+```java
+class Solution {
+    public boolean isHappy(int n) {
+       if (n == 1) {
+           return true;
+       }
+       int slow = n;
+       int fast = sumOfSquares(n);
+       
+       while (slow != fast) {
+           slow = sumOfSquares(slow);
+           fast = sumOfSquares(sumOfSquares(fast));
+           
+           if (slow == 1) {
+               return true;
+           }
+       }
+       return false;
+
+    }
+
+    private int sumOfSquares(int n) {
+        int sumOfSquares = 0;
+        String nString = Integer.toString(n);
+        for (int i = 0; i < nString.length(); i++) {
+            int currentDigit = Integer.parseInt(String.valueOf(nString.charAt(i)));
+            sumOfSquares = (currentDigit * currentDigit) + sumOfSquares;
+        }
+        return sumOfSquares;
+    }
+}
+```
+
 #### Time Complexity
 This solution is `O(log n)` because we are calculating the sum of sqaures,
      technically this is `O(log n)` + `O(log n)`  since we are doing it twice but it
